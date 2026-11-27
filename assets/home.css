@@ -1,0 +1,31 @@
+/* 홈 화면 전용 스타일 (챕터 페이지와 같은 틀을 사용) */
+.homenav a { display: flex; gap: 12px; align-items: baseline; }
+.homenav .n { font-family: var(--mono); font-size: 12px; color: var(--accent); width: 20px; flex: none; }
+.homenav .soon { color: #aaa; }
+.homenav .soon:hover { color: #aaa; }
+
+.progress { margin: 8px 0 8px; }
+.progress .row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+.progress .row span:last-child { color: var(--accent); }
+.progress .bar { height: 6px; background: var(--chip); }
+.progress .bar i { display: block; height: 100%; background: var(--accent); }
+
+.rows { border-bottom: 1.5px solid var(--ink); margin-top: 6px; }
+.rows a {
+  display: grid; grid-template-columns: 64px 1fr 28px; align-items: start; gap: 4px;
+  padding: 22px 0; border-top: 1.5px solid var(--ink); transition: background .15s;
+}
+.rows a:hover { background: var(--soft); }
+.rows .n { font-family: var(--serif); font-size: 30px; font-weight: 900; line-height: 1.1; color: var(--accent); }
+.rows .body { display: block; }
+.rows .t { display: block; font-size: 22px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.4; }
+.rows .d { display: block; margin-top: 2px; font-size: 14.5px; line-height: 1.7; color: #555; }
+.rows .go { font-size: 20px; text-align: right; line-height: 1.5; transition: transform .15s; }
+.rows a:hover .go { transform: translateX(4px); color: var(--accent); }
+
+@media (max-width: 980px) {
+  .homenav { display: none; }
+  .rows a { grid-template-columns: 48px 1fr 22px; }
+  .rows .n { font-size: 24px; }
+  .rows .t { font-size: 19px; }
+}
