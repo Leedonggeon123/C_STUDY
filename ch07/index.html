@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 함수 · 혼공C NOTES</title>
+<meta name="description" content="혼자 공부하는 C언어를 공부하며 정리한 노트">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=2">
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../">혼공C NOTES</a>
+  <nav class="topnav"><a href="../">INDEX</a><a href="https://github.com/Leedonggeon123/C_STUDY" target="_blank" rel="noopener">GITHUB ↗</a></nav>
+</div></header>
+<div class="wrap chapter">
+  <aside class="side">
+    <div class="bignum">07</div>
+    <h1>함수</h1>
+    <p class="desc">07-1 함수 정의·호출·선언과 return (07-2 여러 가지 함수는 정리 예정)</p>
+    <div class="toc-label">IN THIS CHAPTER</div>
+    <nav class="toc"><a href="#_1">함수를 왜 만드나</a><a href="#_2">함수 정의: 함수 만들기</a><a href="#_6">함수 호출: 함수 쓰기</a><a href="#_9">함수 반환: 결과 돌려받기</a><a href="#_10">함수 선언: 미리 알려 두기</a><a href="#_14">확인 문제</a></nav>
+  </aside>
+  <main class="content">
+    <article class="prose">
+<p><em>지금은 07-1 함수의 작성과 사용까지 정리했다. 07-2 여러 가지 함수는 공부하고 나서 추가할 예정.</em></p>
+<p><strong>함수</strong>(函數 · 函은 상자 → 값을 넣으면 정해진 일을 하고 결과를 내놓는 상자)는 어떤 기능을 하는 코드 덩어리다. 지금까지 쓴 <code>main</code>도 함수고, <code>printf</code>, <code>scanf</code>도 함수다.</p>
+<div class="sec-label">SECTION 01</div><h2 id="_1">함수를 왜 만드나</h2>
+<p><code>printf</code>, <code>scanf</code>처럼 C 언어가 미리 만들어서 제공하는 함수를 <strong>표준 라이브러리 함수</strong>(標準 · 기준이 되는 것, library · 도서관 → 미리 만들어 모아 둔 함수 묶음)라고 한다. <code>#include &lt;stdio.h&gt;</code>로 불러온 <code>stdio.h</code> <strong>헤더 파일</strong>(header · 머리 → 파일 맨 위에 붙이는 파일)에 들어 있다.</p>
+<p>그런데 표준 함수는 정해진 대로만 동작한다. 내가 원하는 기능이 따로 있으면 직접 만들어야 한다. 예를 들어 두 정수의 합을 여러 번 구해야 한다면, 그 기능을 함수로 만들어두고 필요할 때마다 부르기만 하면 된다.</p>
+<p>함수를 만들고 쓰는 데 필요한 건 딱 세 가지다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>하는 일</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>함수 정의</strong></td>
+<td>함수를 실제로 만든다 (기능 구현)</td>
+<td><code>int sum(int x, int y) { return x + y; }</code></td>
+</tr>
+<tr>
+<td><strong>함수 호출</strong></td>
+<td>만든 함수를 사용한다</td>
+<td><code>sum(10, 20);</code></td>
+</tr>
+<tr>
+<td><strong>함수 선언</strong></td>
+<td>이런 함수를 쓸 거라고 컴파일러에게 미리 알린다</td>
+<td><code>int sum(int x, int y);</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="sec-label">SECTION 02</div><h2 id="_2">함수 정의: 함수 만들기</h2>
+<p><strong>정의</strong>(定義 · 뜻을 정해서 밝힘 → 함수가 뭘 하는지 실제로 만들어 둠)</p>
+<p>함수를 만들기 전에 세 가지만 정하면 된다. 두 정수를 더하는 함수로 생각해 보면:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>질문</th>
+<th>답</th>
+<th>이름</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 기능에 맞는 이름은?</td>
+<td>더하기 → <code>sum</code></td>
+<td><strong>함수명</strong></td>
+</tr>
+<tr>
+<td>② 일할 때 필요한 데이터는?</td>
+<td>더할 정수 2개</td>
+<td><strong>매개변수</strong></td>
+</tr>
+<tr>
+<td>③ 일이 끝나고 돌려줄 결과는?</td>
+<td>정수 (정수 + 정수 = 정수)</td>
+<td><strong>반환형</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>이 세 가지를 한 줄로 적은 게 <strong>함수 원형</strong>(原形 · 본디 모양, function prototype)이다. 원형 아래에 중괄호를 열고 할 일을 적으면 함수 정의가 끝난다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">반환형 함수명(매개변수1, 매개변수2)    // 함수 원형
+{
+    // 함수가 할 일
+    // 결과를 return으로 돌려보냄
+}</code></pre></div>
+<h3 id="_3">예제: 두 정수를 더하는 함수</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+
+int sum(int x, int y);              // 함수 선언
+
+int main(void)
+{
+    int a = 10, b = 20;
+    int result;
+
+    result = sum(a, b);             // 함수 호출
+    printf("result : %d\n", result);
+
+    return 0;
+}
+
+int sum(int x, int y)               // 함수 정의
+{
+    int temp;
+
+    temp = x + y;
+
+    return temp;
+}</code></pre></div>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>result : 30</code></pre></div>
+<p><code>main</code> 말고 <code>sum</code>이라는 함수가 하나 더 생겼다. 함수 안에 또 함수를 정의할 수는 없어서 <code>sum</code>은 <code>main</code> 바깥에 따로 만든다.</p>
+<h3 id="_4">함수 원형 뜯어보기</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int sum(int x, int y)</code></pre></div>
+<ul>
+<li><strong>함수명</strong> <code>sum</code>: 기능을 짐작할 수 있는 이름으로, 변수 이름처럼 식별자 규칙을 따른다. <code>add</code>도 괜찮다.</li>
+<li><strong>매개변수</strong>(媒介變數 · 둘 사이를 이어 주는 변수, parameter) <code>int x, int y</code>: 함수가 받을 데이터를 담는 변수. 자료형이 같아도 <strong>하나씩 따로</strong> 적어야 한다. <code>int x, y</code>라고 쓰면 안 된다.</li>
+<li><strong>반환형</strong>(返還型 · 돌려줄 값의 자료형) <code>int</code>: 함수가 끝나고 돌려줄 값의 자료형. 두 정수의 합이라 <code>int</code>.</li>
+</ul>
+<p>함수 안에서 필요한 변수는 <code>int temp;</code>처럼 안에서 따로 선언해서 쓴다.</p>
+<h3 id="return">return</h3>
+<p><strong>return</strong>(돌려주다)은 함수의 결과를 호출한 곳으로 돌려주고 함수를 끝내는 제어문이다. <code>temp</code>에 합을 저장했다가 <code>return temp;</code>로 돌려줬는데, 사실 <code>temp</code> 없이 바로 돌려줘도 된다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int sum(int x, int y)
+{
+    return (x + y);    // 계산 결과를 바로 반환
+}</code></pre></div>
+<h3 id="_5">함수마다 변수 이름이 같아도 된다</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int sum(int a, int b)     // main에도 a, b가 있지만 상관없음
+{
+    int result;           // main에도 result가 있지만 상관없음
+    result = a + b;       // 여기서 a, b는 main의 a, b가 아니라 매개변수
+    return result;
+}</code></pre></div>
+<p>변수는 <strong>선언한 중괄호 블록 안에서만</strong> 쓸 수 있다. 그래서 <code>main</code>의 <code>a</code>와 <code>sum</code>의 <code>a</code>는 이름만 같고 완전히 다른 칸이다. 매개변수도 마찬가지로 그 함수 안에서만 쓸 수 있다. (자세한 건 13장)</p>
+<div class="sec-label">SECTION 03</div><h2 id="_6">함수 호출: 함수 쓰기</h2>
+<p><strong>호출</strong>(呼出 · 불러냄). 함수는 만들어두기만 하면 저절로 실행되지 않는다. 이름을 불러줘야 실행된다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">result = sum(a, b);    // sum 함수 호출</code></pre></div>
+<p>괄호 안에 넣어 주는 값을 <strong>인수</strong>(引數 · 끌어다 주는 값, argument)라고 한다. 인수에는 리터럴, 변수, 수식이 다 올 수 있다. 수식을 넣으면 계산된 결과가 인수로 들어간다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">sum(30, 40);         // 리터럴(상수) 인수
+sum(a, b);           // 변수 인수
+sum(a * 2, b / 3);   // 수식 인수 → 계산한 값이 들어감</code></pre></div>
+<h3 id="_7">인수는 매개변수에 순서대로 복사된다</h3>
+<p><code>sum(a, b)</code>를 호출하면 <code>a</code>의 값은 <code>x</code>로, <code>b</code>의 값은 <code>y</code>로 <strong>순서대로 복사</strong>된다. 그리고 <code>main</code>은 잠깐 멈추고 <code>sum</code> 안의 코드가 실행된다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>호출하는 쪽 (인수)</th>
+<th></th>
+<th>받는 쪽 (매개변수)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a</code> (10)</td>
+<td>→ 복사 →</td>
+<td><code>x</code></td>
+</tr>
+<tr>
+<td><code>b</code> (20)</td>
+<td>→ 복사 →</td>
+<td><code>y</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>인수와 매개변수 헷갈리지 않기</strong>: 부를 때 넣어 주는 값이 <strong>인수</strong>, 함수가 그 값을 받아 담는 변수가 <strong>매개변수</strong>.</p>
+<h3 id="_8">실행 순서</h3>
+<ol>
+<li>프로그램은 항상 <code>main</code>부터 시작</li>
+<li><code>main</code>을 위에서부터 실행하다가</li>
+<li><code>sum(a, b)</code>를 만나면 <code>sum</code>으로 넘어감 (인수를 매개변수에 복사)</li>
+<li><code>sum</code> 실행</li>
+<li><code>return temp;</code>로 값을 들고 호출한 자리로 돌아옴</li>
+<li><code>main</code>의 나머지를 이어서 실행</li>
+</ol>
+<div class="sec-label">SECTION 04</div><h2 id="_9">함수 반환: 결과 돌려받기</h2>
+<p><strong>반환</strong>(返還 · 돌려줌). <code>return temp;</code>를 만나면 <code>temp</code>의 값이 함수를 부른 자리로 돌아온다. <code>result = sum(a, b);</code>라면 <code>sum(a, b)</code> 자리에 30이 돌아오고, 그 값이 <code>result</code>에 대입된다.</p>
+<p>반환값은 이름 없는 임시 공간에 잠깐 들어 있다가 사라진다. 그래서 바로 변수에 대입하거나, 수식에 그대로 써야 한다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">result = sum(a, b) * 2;</code></pre></div>
+<p>이때 순서는 ① <code>sum(a, b)</code> 호출해서 반환값(30) 받기 → ② 30 × 2 → ③ <code>result</code>에 60 대입. <strong>함수 호출이 가장 먼저</strong>다.</p>
+<div class="sec-label">SECTION 05</div><h2 id="_10">함수 선언: 미리 알려 두기</h2>
+<p><strong>선언</strong>(宣言 · 널리 알림). 컴파일러에게 "이런 모양의 함수를 쓸 거야"라고 미리 알리는 것이다. 만드는 법은 간단하다. <strong>함수 원형 뒤에 세미콜론</strong>을 붙여서 <code>main</code> 위에 적는다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int sum(int x, int y);    // 함수 선언
+int sum(int, int);        // 매개변수 이름은 생략해도 된다</code></pre></div>
+<h3 id="_11">정의가 있는데 왜 선언이 필요할까</h3>
+<p>컴파일러는 코드를 <strong>위에서 아래로</strong> 읽는다. 예제처럼 <code>sum</code>이 <code>main</code>보다 아래 있으면, <code>main</code>에서 <code>sum</code>을 만났을 때 컴파일러는 아직 <code>sum</code>이 뭔지 모른다. 그래서 위에서 미리 알려 줘야 한다.</p>
+<p><strong>이유 1. 반환형을 미리 알아야 한다.</strong> 컴파일러는 함수를 부른 자리에 반환값이 들어올 공간을 준비한다. 정수를 돌려주면 <code>int</code> 크기, 실수면 <code>double</code> 크기. 그러려면 호출하기 전에 반환형을 알아야 한다.</p>
+<p><strong>이유 2. 호출을 제대로 했는지 검사한다.</strong> 선언에 매개변수 개수와 자료형이 적혀 있으니, 정수 2개를 받는 <code>sum</code>에 실수를 넣으면 컴파일러가 경고를 띄워 준다.</p>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>warning C4244: '함수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.</code></pre></div>
+<h3 id="_12">선언 없이 쓰는 방법도 있다</h3>
+<p><code>sum</code> 정의를 <code>main</code> <strong>위에</strong> 두면 정의 안에 원형이 이미 들어 있어서 선언이 필요 없다. 코드 순서를 바꿔도 실행 순서는 그대로다. 프로그램은 어디 적혀 있든 항상 <code>main</code>부터 시작하기 때문이다.</p>
+<p>다만 함수가 많아지고 서로 부르는 관계가 복잡해지면 순서 맞추기가 힘들다. 그래서 보통은 <strong><code>main</code> 위에 선언을 전부 모아 두고, 정의는 <code>main</code> 아래에</strong> 쓴다. 그러면 어떤 함수들이 있는지 한눈에 보이고 순서 신경 안 쓰고 자유롭게 부를 수 있다.</p>
+<h3 id="_13">선언도 정의도 없이 먼저 부르면?</h3>
+<p>컴파일러는 일단 "반환형이 <code>int</code>인 함수겠지" 하고 넘어가면서 경고를 띄운다.</p>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>warning C4013: 'sum'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.</code></pre></div>
+<p>진짜 반환형이 <code>int</code>면 우연히 돌아가지만, <code>double</code> 같은 다른 자료형이면 나중에 정의를 만났을 때 에러가 난다. 그러니 선언은 꼭 하자.</p>
+<div class="sec-label">SECTION 06</div><h2 id="_14">확인 문제</h2>
+<h3 id="1">1. 두 실수의 평균을 구하는 함수의 빈칸 채우기</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">double res;                       // 반환값을 저장할 변수
+res = average(1.5, 3.4);          // 함수 호출
+
+double average(double a, double b)    // ← 빈칸: double / double a / double b
+{
+    double temp;
+    temp = a + b;
+    return (temp / 2.0);
+}</code></pre></div>
+<ul>
+<li>반환형: 평균은 실수라서 <code>double</code></li>
+<li>매개변수: 함수 안에서 <code>a</code>, <code>b</code>를 쓰고 있고 실수 2개를 받으니 <code>double a, double b</code>. <code>double a, b</code>로 쓰면 안 되고 각각 자료형을 붙여야 한다.</li>
+</ul>
+<h3 id="2">2. 용어와 설명 연결</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>용어</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>함수 선언</td>
+<td>함수 원형을 컴파일러에 알린다</td>
+</tr>
+<tr>
+<td>함수 정의</td>
+<td>함수 원형을 설계하고 내용을 구현한다</td>
+</tr>
+<tr>
+<td>함수 호출</td>
+<td>함수에 필요한 값을 주고 함수를 사용한다</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="3-187cm-m">3. 187cm를 m로 바꿔 출력하기</h3>
+<p>cm를 m로 바꿔서 돌려주는 함수를 만들고, 호출해서 출력하는 문제.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+
+double centi_to_meter(double cm);     // 함수 선언
+
+int main(void)
+{
+    double res;                       // 반환값을 저장할 변수
+
+    res = centi_to_meter(187);        // 함수 호출, 반환값을 res에 저장
+    printf("%.2lfm\n", res);          // 1.87m
+
+    return 0;
+}
+
+double centi_to_meter(double cm)      // 함수 정의
+{
+    double meter;                     // 필요한 변수 선언
+
+    meter = cm / 100.0;               // cm를 m로 환산 (cm * 0.01 도 같음)
+
+    return meter;                     // 환산된 값 반환
+}</code></pre></div>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>1.87m</code></pre></div>
+<p><strong>정답과 내 풀이 비교</strong></p>
+<p>나는 <code>0.01</code>을 곱하는 방식으로 풀었는데, 1cm = 0.01m라서 <code>cm * 0.01</code>과 <code>cm / 100.0</code>은 같은 계산이다. 계산식 자체는 맞다. 다만 두 가지는 조심하자.</p>
+<ol>
+<li><strong>변환은 함수 안에서 해야 한다.</strong> 문제가 "cm를 m로 환산해서 반환하는 함수"를 만들라는 거라, <code>main</code>에서 <code>centi_to_meter(187) * 0.01</code>처럼 호출한 다음에 곱하면 함수가 하는 일이 없어진다. 곱하기는 함수 안에서만 하고, <code>main</code>은 <code>res = centi_to_meter(187);</code>로 결과만 받는다.</li>
+<li><strong>함수 안에서는 매개변수 이름을 써야 한다.</strong> 함수 안에서 <code>res * 0.01</code>처럼 <code>main</code>의 변수 <code>res</code>를 쓰면 에러가 난다(<code>'res' undeclared</code>). <code>res</code>는 <code>main</code> 블록 안에서만 쓸 수 있기 때문이다. 함수 안에서는 넘겨받은 값이 들어 있는 매개변수 <code>cm</code>을 써서 <code>cm * 0.01</code>로 계산한다.</li>
+</ol>
+<p><strong>그 밖에 알아둘 점</strong></p>
+<ul>
+<li><code>centi_to_meter(187)</code>처럼 정수 187을 넣어도, 선언에서 매개변수가 <code>double</code>이라고 알려줬기 때문에 자동으로 187.0으로 바뀌어 들어간다. 선언이 이런 역할도 한다.</li>
+<li><code>/ 100.0</code>처럼 소수점을 붙이는 습관이 좋다. 지금은 <code>cm</code>이 <code>double</code>이라 <code>/ 100</code>으로 해도 되지만, <code>cm</code>이 <code>int</code>였다면 <code>187 / 100</code>은 정수 나눗셈이라 1이 나온다.</li>
+<li><code>%.2lf</code>는 소수점 아래 둘째 자리까지 출력한다. 뒤에 붙은 <code>m</code>은 그냥 글자라 <code>1.87m</code>로 찍힌다.</li>
+</ul>
+<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>함수는 <strong>선언</strong>(원형 + <code>;</code>로 미리 알림), <strong>정의</strong>(반환형·이름·매개변수를 정하고 내용 구현), <strong>호출</strong>(인수를 넣어 사용) 세 가지로 쓰고, 결과는 <code>return</code>으로 돌려준다.</p></div></div>
+    </article>
+    <div class="pager"><a class="prev" href="../ch06/">← 06 반복문</a></div>
+  </main>
+</div>
+<footer class="foot"><div class="wrap"><span>혼자 공부하는 C언어 · 개인 학습 노트</span><span>예제 코드는 직접 컴파일해서 확인했습니다</span></div></footer>
+<script src="../assets/main.js?v=2"></script>
+</body>
+</html>
