@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 반복문 · 혼공C NOTES</title>
+<meta name="description" content="혼자 공부하는 C언어를 공부하며 정리한 노트">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../">혼공C NOTES</a>
+  <nav class="topnav"><a href="../">INDEX</a><a href="https://github.com/Leedonggeon123/C_STUDY" target="_blank" rel="noopener">GITHUB ↗</a></nav>
+</div></header>
+<div class="wrap chapter">
+  <aside class="side">
+    <div class="bignum">06</div>
+    <h1>반복문</h1>
+    <p class="desc">while, for, do-while과 break, continue, 중첩 반복문</p>
+    <div class="toc-label">IN THIS CHAPTER</div>
+    <nav class="toc"><a href="#while">while</a><a href="#for">for</a><a href="#do-while">do ~ while</a><a href="#break-continue">break와 continue</a><a href="#_2">무한 루프</a><a href="#_3">중첩 반복문</a><a href="#_6">반복문에서 자주 하는 실수</a></nav>
+  </aside>
+  <main class="content">
+    <article class="prose">
+<p>같은 일을 여러 번 시킬 때 쓴다. 반복문 세 가지(<code>while</code>, <code>for</code>, <code>do-while</code>)는 결국 비슷한 일을 하는데 쓰기 좋은 상황이 조금씩 다르다.</p>
+<div class="sec-label">SECTION 01</div><h2 id="while">while</h2>
+<p>조건이 참인 동안 계속 반복한다. 반복하기 전에 조건부터 검사한다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    int i = 1;
+
+    while (i &lt;= 5)
+    {
+        printf("%d번째\n", i);
+        i++;
+    }
+    return 0;
+}</code></pre></div>
+<p>반복문에는 보통 세 가지 요소가 있다. 시작값(<code>i = 1</code>), 계속할 조건(<code>i &lt;= 5</code>), 값 변화(<code>i++</code>). 이 중에서 값 변화를 빼먹으면 조건이 영원히 참이어서 무한 반복이 된다.</p>
+<div class="sec-label">SECTION 02</div><h2 id="for">for</h2>
+<p>위의 세 요소를 한 줄에 모아서 쓴다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">for (int i = 1; i &lt;= 5; i++)
+{
+    printf("%d번째\n", i);
+}</code></pre></div>
+<p><code>for (초기식; 조건식; 증감식)</code> 순서이고, 실행 순서는 이렇다.</p>
+<ol>
+<li>초기식을 한 번 실행</li>
+<li>조건식 검사 → 거짓이면 끝</li>
+<li>중괄호 안 실행</li>
+<li>증감식 실행</li>
+<li>2번으로 돌아감</li>
+</ol>
+<p>횟수가 정해져 있으면 <code>for</code>, 몇 번 돌지 모르고 조건만 있으면 <code>while</code>을 주로 쓴다.</p>
+<h3 id="_1">합 구하기</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int sum = 0;
+
+for (int i = 1; i &lt;= 100; i++)
+{
+    sum += i;
+}
+printf("1부터 100까지의 합: %d\n", sum);   // 5050</code></pre></div>
+<p>변수 <code>sum</code>을 0으로 초기화해두고 값을 계속 더해가는 패턴이다. 초기화를 안 하면 쓰레기 값에 더하게 되니 주의.</p>
+<div class="sec-label">SECTION 03</div><h2 id="do-while">do ~ while</h2>
+<p>일단 한 번 실행하고 나서 조건을 검사한다. 조건이 처음부터 거짓이어도 최소 한 번은 실행된다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int n;
+
+do
+{
+    printf("1 이상의 수를 입력: ");
+    scanf("%d", &amp;n);
+} while (n &lt; 1);
+
+printf("입력한 수: %d\n", n);</code></pre></div>
+<p>입력을 받고 나서 검증해야 하는 경우에 딱 맞다. 먼저 입력을 받아야 조건을 검사할 수 있으니까. 끝에 <code>;</code>를 붙이는 걸 잊지 말자.</p>
+<div class="sec-label">SECTION 04</div><h2 id="break-continue">break와 continue</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>키워드</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>break</code></td>
+<td>반복문을 완전히 빠져나감</td>
+</tr>
+<tr>
+<td><code>continue</code></td>
+<td>이번 회차만 건너뛰고 다음 회차로</td>
+</tr>
+</tbody>
+</table></div>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">for (int i = 1; i &lt;= 10; i++)
+{
+    if (i % 2 == 0)
+        continue;      // 짝수는 건너뜀
+    if (i &gt; 7)
+        break;         // 7을 넘으면 종료
+    printf("%d ", i);
+}
+// 출력: 1 3 5 7</code></pre></div>
+<div class="sec-label">SECTION 05</div><h2 id="_2">무한 루프</h2>
+<p>조건을 항상 참으로 두고, 안에서 <code>break</code>로 빠져나오게 만드는 방식이다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">while (1)
+{
+    int n;
+    printf("숫자(0이면 종료): ");
+    scanf("%d", &amp;n);
+
+    if (n == 0)
+        break;
+
+    printf("%d의 제곱: %d\n", n, n * n);
+}</code></pre></div>
+<p><code>for (;;)</code>도 같은 의미다. 일부러 만든 무한 루프가 아니라 실수로 생긴 거라면, 프로그램이 멈추지 않으니 <code>Ctrl + C</code>로 강제 종료하면 된다.</p>
+<div class="sec-label">SECTION 06</div><h2 id="_3">중첩 반복문</h2>
+<p>반복문 안에 반복문을 넣는다. 바깥이 한 번 돌 때마다 안쪽이 처음부터 끝까지 돈다.</p>
+<h3 id="_4">구구단</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">for (int i = 2; i &lt;= 9; i++)
+{
+    printf("[%d단]\n", i);
+    for (int j = 1; j &lt;= 9; j++)
+    {
+        printf("%d x %d = %2d\n", i, j, i * j);
+    }
+    printf("\n");
+}</code></pre></div>
+<h3 id="_5">별 찍기</h3>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">for (int i = 1; i &lt;= 5; i++)
+{
+    for (int j = 1; j &lt;= i; j++)
+    {
+        printf("*");
+    }
+    printf("\n");
+}</code></pre></div>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>*
+**
+***
+****
+*****</code></pre></div>
+<p>바깥 반복(<code>i</code>)은 줄 수, 안쪽 반복(<code>j</code>)은 그 줄에서 몇 개를 찍을지를 담당한다고 생각하면 이해가 쉽다. 줄이 바뀔 때만 <code>\n</code>을 출력하니까 <code>printf("\n")</code>은 안쪽 반복문 바깥에 있어야 한다.</p>
+<div class="sec-label">SECTION 07</div><h2 id="_6">반복문에서 자주 하는 실수</h2>
+<ul>
+<li><code>for (...);</code>처럼 뒤에 세미콜론을 붙임. 반복문 내용이 빈 문장이 되어버려서 안의 코드는 반복 끝나고 딱 한 번만 실행됨</li>
+<li>증감식을 빼먹어서 무한 루프</li>
+<li><code>&lt;=</code>와 <code>&lt;</code> 혼동. <code>i &lt;= 5</code>는 5번, <code>i &lt; 5</code>는 4번 도는데(1부터 시작할 때), 하나 차이로 틀리는 오류가 의외로 흔함</li>
+<li>합을 구하는 변수를 초기화하지 않음</li>
+<li>중첩 반복문에서 안쪽과 바깥쪽에 같은 변수 <code>i</code>를 써서 꼬임</li>
+</ul>
+<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>횟수가 정해져 있으면 <code>for</code>, 조건 위주면 <code>while</code>, 최소 한 번은 해야 하면 <code>do-while</code>을 쓰고, 중첩 반복문은 바깥이 한 번 돌 때 안쪽이 전부 돈다.</p></div></div>
+    </article>
+    <div class="pager"><a class="prev" href="../ch05/">← 05 선택문</a></div>
+  </main>
+</div>
+<footer class="foot"><div class="wrap"><span>혼자 공부하는 C언어 · 개인 학습 노트</span><span>예제 코드는 직접 컴파일해서 확인했습니다</span></div></footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>
