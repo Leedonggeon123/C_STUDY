@@ -26,7 +26,7 @@
   <main class="content">
     <article class="prose">
 <div class="sec-label">SECTION 01</div><h2 id="_1">변수: 값을 담아두는 이름 붙은 칸</h2>
-<p>상수는 값이 고정이지만, 변수는 값을 바꿔가며 저장할 수 있다. 쓰려면 먼저 어떤 종류의 값을 담을지 정해서 선언해야 한다.</p>
+<p>상수는 값이 고정이지만, 변수는 값을 바꿔가며 저장할 수 있다. 쓰려면 먼저 어떤 종류의 값을 담을지 정해서 <strong>선언</strong>(宣言 · 널리 알림 → 컴파일러에게 "이런 칸을 쓰겠다"고 알림)해야 한다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
 
 int main(void)
@@ -37,18 +37,18 @@ int main(void)
     printf("%d %d\n", age, year);
     return 0;
 }</code></pre></div>
-<p>선언만 하고 값을 안 넣으면 그 칸에는 이전에 있던 아무 값이나 들어 있다(쓰레기 값). 그래서 선언할 때 바로 초기화하는 습관이 좋다.</p>
+<p>선언만 하고 값을 안 넣으면 그 칸에는 이전에 있던 아무 값이나 들어 있다(쓰레기 값). 그래서 선언할 때 바로 <strong>초기화</strong>(初期化 · 처음 상태로 만듦 → 처음 값을 넣어 둠)하는 습관이 좋다.</p>
 <h3 id="_2">식별자와 예약어</h3>
-<p>변수나 함수처럼 프로그래머가 짓는 이름을 식별자라고 한다. 규칙은 이렇다.</p>
+<p>변수나 함수처럼 프로그래머가 짓는 이름을 <strong>식별자</strong>(識別子 · 알아보고 구별하기 위한 이름)라고 한다. 규칙은 이렇다.</p>
 <ul>
 <li>영문, 숫자, <code>_</code>만 사용 가능</li>
 <li>숫자로 시작할 수 없음 (<code>1st</code>는 안 되고 <code>first</code>는 됨)</li>
 <li>대소문자 구분 (<code>age</code>와 <code>Age</code>는 다른 변수)</li>
 <li>예약어는 이름으로 못 씀</li>
 </ul>
-<p>예약어(키워드)는 <code>int</code>, <code>return</code>, <code>if</code>, <code>while</code>처럼 C 언어가 이미 자기 용도로 정해둔 단어다. 컴파일러가 이걸 보면 "문법의 일부"로 읽기 때문에 변수 이름으로 쓸 수 없다. 에디터에서 색이 다르게 칠해지면 예약어라는 신호.</p>
+<p><strong>예약어</strong>(豫約語 · 미리 맡아 둔 말, 키워드라고도 함)는 <code>int</code>, <code>return</code>, <code>if</code>, <code>while</code>처럼 C 언어가 이미 자기 용도로 정해둔 단어다. 컴파일러가 이걸 보면 "문법의 일부"로 읽기 때문에 변수 이름으로 쓸 수 없다. 에디터에서 색이 다르게 칠해지면 예약어라는 신호.</p>
 <div class="sec-label">SECTION 02</div><h2 id="_3">자료형</h2>
-<p>담는 값의 종류와 크기에 따라 자료형이 나뉜다.</p>
+<p>담는 값의 종류와 크기에 따라 <strong>자료형</strong>(資料型 · 자료의 형태, 틀)이 나뉜다.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -101,13 +101,14 @@ printf("%zu\n", sizeof(double));  // 8
 printf("%zu\n", sizeof(char));    // 1</code></pre></div>
 <p>실수는 <code>double</code>을 기본으로 쓰는 편이 정확도 면에서 낫다. <code>float</code>은 소수점 7자리쯤부터 오차가 나온다.</p>
 <h3 id="_4">범위를 넘으면 (오버플로)</h3>
+<p><strong>오버플로</strong>(overflow · 넘쳐흐름)는 칸이 담을 수 있는 범위를 넘어선 상황이다.</p>
 <p><code>int</code>는 약 -21억 ~ +21억까지만 담는다. 넘으면 에러 없이 이상한 값이 된다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 2147483647;   // int의 최댓값
 a = a + 1;
 printf("%d\n", a);    // 음수가 나옴</code></pre></div>
 <p>큰 수를 다룰 때는 <code>long long</code>을 쓰고, 출력은 <code>%lld</code>로 한다.</p>
 <div class="sec-label">SECTION 03</div><h2 id="char">문자열 저장: char 배열</h2>
-<p>문자 하나는 <code>char</code>에 담지만, 문자열은 <code>char</code>를 여러 개 이어 붙인 배열에 담는다. 배열은 같은 자료형 칸을 나란히 만든 것이다.</p>
+<p>문자 하나는 <code>char</code>에 담지만, 문자열은 <code>char</code>를 여러 개 이어 붙인 배열에 담는다. <strong>배열</strong>(配列 · 나란히 늘어놓음)은 같은 자료형 칸을 나란히 만든 것이다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">char name[20] = "Hong";
 printf("%s\n", name);   // Hong</code></pre></div>
 <p><code>name[20]</code>은 <code>char</code> 20칸이라는 뜻이다. 문자열 끝에는 글자가 아닌 "끝났다"는 표시(<code>\0</code>, 널 문자)가 자동으로 하나 들어가서, 글자 수보다 최소 1칸은 더 크게 잡아야 한다. <code>Hong</code>은 4글자지만 5칸이 필요하다.</p>
@@ -186,7 +187,7 @@ printf("안녕, %s\n", name);</code></pre></div>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#define _CRT_SECURE_NO_WARNINGS</code></pre></div>
 <div class="sec-label">SECTION 05</div><h2 id="const">const: 바뀌면 안 되는 값</h2>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">const double PI = 3.14159;</code></pre></div>
-<p><code>const</code>를 붙인 변수는 값을 바꾸려 하면 컴파일 에러가 난다. 원주율처럼 고정 값은 이름을 붙여두는 게 코드 읽기에도 좋다.</p>
+<p><code>const</code>(constant의 줄임말 · 변하지 않는)를 붙인 변수는 값을 바꾸려 하면 컴파일 에러가 난다. 원주율처럼 고정 값은 이름을 붙여두는 게 코드 읽기에도 좋다. 여기서 <code>PI</code>는 이름 있는 상수, <code>3.14159</code>는 2장에서 본 리터럴이다.</p>
 <div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>변수는 자료형을 정해 선언하고 초기화해서 쓰며, <code>scanf</code>로 입력받을 때는 자료형에 맞는 지정자와 변수 앞의 <code>&amp;</code>를 꼭 붙인다.</p></div></div>
     </article>
     <div class="pager"><a class="prev" href="../ch02/">← 02 상수와 데이터 출력</a><a class="next" href="../ch04/">04 연산자 →</a></div>
