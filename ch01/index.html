@@ -19,17 +19,121 @@
   <aside class="side">
     <div class="bignum">01</div>
     <h1>프로그램 만들기</h1>
-    <p class="desc">소스 코드가 실행 파일이 되는 과정, main 뼈대, 주석, 오류의 종류</p>
+    <p class="desc">C 언어 소개, 전처리·컴파일·링크 3단계, 비주얼 스튜디오로 첫 프로그램 만들기</p>
     <div class="toc-label">IN THIS CHAPTER</div>
-    <nav class="toc"><a href="#_1">프로그램이 만들어지는 과정</a><a href="#_2">제일 기본 뼈대</a><a href="#_3">주석</a><a href="#_4">오류 종류</a><a href="#_5">처음에 자주 하는 실수</a></nav>
+    <nav class="toc"><a href="#c">프로그램과 C 언어</a><a href="#_1">컴파일이 뭔가</a><a href="#_2">비주얼 스튜디오로 첫 프로그램 만들기</a><a href="#_5">제일 기본 뼈대</a><a href="#_6">오류 종류</a><a href="#_7">처음에 자주 하는 실수</a></nav>
   </aside>
   <main class="content">
     <article class="prose">
-<div class="sec-label">SECTION 01</div><h2 id="_1">프로그램이 만들어지는 과정</h2>
-<p>C로 짠 코드는 그대로 실행되지 않는다. 사람이 읽는 코드(소스 파일, <code>.c</code>)를 컴파일러가 기계어로 바꿔줘야 실행 파일이 나온다.</p>
-<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>소스 코드(.c) → 컴파일 → 실행 파일(.exe) → 실행</code></pre></div>
-<p>코드를 고치면 반드시 다시 컴파일해야 바뀐 내용이 반영된다. 처음엔 이걸 깜빡하고 "왜 안 바뀌지?" 하게 되는 일이 많다.</p>
-<div class="sec-label">SECTION 02</div><h2 id="_2">제일 기본 뼈대</h2>
+<div class="sec-label">SECTION 01</div><h2 id="c">프로그램과 C 언어</h2>
+<p>프로그램은 결국 "할 일의 순서"다. 라면을 끓일 때도 물 붓기 → 끓이기 → 면 넣기 → 스프 넣기 순서가 있는 것처럼, 컴퓨터에게도 순서대로 일을 시켜야 한다. 그런데 "스프 적당히 넣기" 같은 말은 사람은 알아듣지만 컴퓨터는 못 알아듣는다. 그래서 오해 없이 쓰는 규칙을 정해놨고, 그게 프로그래밍 언어다. C는 그중 하나.</p>
+<h3 id="c_1">C 언어는 왜 만들어졌나</h3>
+<ul>
+<li>1972년에 데니스 리치가 만들었다. 켄 톰슨의 B 언어를 발전시킨 것.</li>
+<li>당시 유닉스(운영체제)는 어셈블리어로 짜여 있어서 컴퓨터 기종이 바뀌면 처음부터 다시 만들어야 했다. 기종에 상관없이 쓰려고 만든 게 C.</li>
+<li>그 뒤로 표준이 계속 정해졌다. 1989년 ANSI C, 1999년 C99, 2011년 표준. 이 책은 C99 기준.</li>
+</ul>
+<p>장점은 크게 세 가지로 기억하면 된다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>장점</th>
+<th>한마디로</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>시스템 프로그래밍</td>
+<td>운영체제를 만들려고 만든 언어라 하드웨어를 직접 다룰 수 있다</td>
+</tr>
+<tr>
+<td>이식성</td>
+<td>표준만 지키면 다른 컴퓨터에서도 같은 코드가 돌아간다</td>
+</tr>
+<tr>
+<td>함수 단위 개발</td>
+<td>기능별로 나눠 짜서 고치기 쉽고 다른 프로그램에 재활용도 된다</td>
+</tr>
+</tbody>
+</table></div>
+<p>표준에 없는 문법을 쓰면 특정 컴파일러에서만 돌아가서 이식성이 깨진다는 점도 알아두자.</p>
+<div class="sec-label">SECTION 02</div><h2 id="_1">컴파일이 뭔가</h2>
+<p>사람이 쓴 코드(소스 파일)는 컴퓨터가 바로 못 읽는다. 컴퓨터는 0과 1로 된 기계어만 이해해서, 중간에 번역하는 과정이 필요하다. 그게 컴파일이고, 번역하는 프로그램이 컴파일러다.</p>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>소스 파일(.c) → 컴파일 → 실행 파일(.exe) → 실행</code></pre></div>
+<p>코드를 고치면 다시 컴파일해야 바뀐 게 반영된다. 처음엔 이걸 깜빡하고 "왜 안 바뀌지?" 하게 된다.</p>
+<h3 id="3">안쪽을 더 들여다보면 3단계</h3>
+<p>비주얼 스튜디오에서는 버튼 한 번(Ctrl+Shift+B)이지만 속에서는 세 단계가 돌아간다.</p>
+<ol>
+<li><strong>전처리</strong>: <code>#include</code> 같은 지시자대로 소스를 가공한다. 필요한 파일을 불러와 붙이고, 주석도 이 단계에서 지워진다.</li>
+<li><strong>컴파일</strong>: 전처리된 소스를 기계어로 바꿔서 개체 파일(object file)을 만든다. CPU가 읽는 명령어로는 되어 있지만 이것만으로는 실행이 안 된다. 프로그램은 운영체제가 실행해주는 것이라, 운영체제가 알아보는 형태로 한 번 더 손봐야 하기 때문.</li>
+<li><strong>링크</strong>: 개체 파일에 startup code를 붙여서 실행 파일을 완성한다. startup code는 실행 전 준비 작업을 하고 <code>main</code> 함수를 불러주는 코드다. 그래서 C 프로그램에는 항상 <code>main</code>이 있어야 한다.</li>
+</ol>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>소스 파일 → (전처리) → 전처리된 소스 → (컴파일) → 개체 파일 → (링크, startup code 추가) → 실행 파일</code></pre></div>
+<div class="sec-label">SECTION 03</div><h2 id="_2">비주얼 스튜디오로 첫 프로그램 만들기</h2>
+<p>이 책은 Visual Studio 2019 Community(줄여서 VC++)로 실습한다. 순서만 정리해둔다.</p>
+<p><strong>설치할 때</strong></p>
+<ul>
+<li>설치 도구에서 <strong>"C++를 사용한 데스크톱 개발"</strong> 항목을 체크해야 C 컴파일러가 깔린다.</li>
+<li>로그인 없이 쓰면 30일 평가판이고, 마이크로소프트 계정으로 로그인하면 계속 무료다.</li>
+</ul>
+<p><strong>프로젝트 만들기</strong></p>
+<ol>
+<li>[새 프로젝트 만들기] → [빈 프로젝트] 선택</li>
+<li>프로젝트 이름 입력(예: <code>first</code>), 위치는 찾기 쉬운 폴더로 지정</li>
+<li><strong>[솔루션 및 프로젝트를 같은 디렉터리에 배치]에 체크</strong>: 안 하면 폴더가 한 겹 더 생겨서 구조가 복잡해진다.</li>
+</ol>
+<p>프로젝트는 프로그램을 만드는 작업 공간이자 관련 파일을 묶어두는 폴더라서, 새 프로그램을 만들 때마다 프로젝트부터 만든다.</p>
+<p><strong>소스 파일 추가</strong></p>
+<ul>
+<li>[솔루션 탐색기]에서 [소스 파일] 우클릭 → [추가] → [새 항목] → [C++ 파일] 선택</li>
+<li>이름은 <code>main.c</code>처럼 <strong>확장자를 반드시 <code>.c</code>로</strong> 쓴다. 확장자를 안 쓰면 자동으로 <code>.cpp</code>가 붙는데, 그러면 C++ 규칙으로 컴파일돼서 결과가 달라질 수 있다.</li>
+</ul>
+<p><strong>컴파일 → 실행</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>할 일</th>
+<th>단축키</th>
+<th>메뉴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>컴파일(빌드)</td>
+<td>Ctrl + Shift + B</td>
+<td>[빌드] → [솔루션 빌드]</td>
+</tr>
+<tr>
+<td>실행</td>
+<td>Ctrl + F5</td>
+<td>[디버그] → [디버그하지 않고 시작]</td>
+</tr>
+</tbody>
+</table></div>
+<p>컴파일하면 프로젝트 폴더 안에 <code>Debug</code> 폴더가 생기고 거기에 <code>프로젝트이름.exe</code>가 들어간다.</p>
+<h3 id="exe">exe를 직접 더블클릭하면 창이 바로 닫힌다</h3>
+<p>결과가 찍히자마자 콘솔 창이 닫혀서 아무것도 못 본다. 코드 끝에 창을 붙잡아두는 한 줄을 넣으면 된다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void)
+{
+    printf("Be happy!\n");
+    system("pause");    // 아무 키나 누를 때까지 창을 유지
+    return 0;
+}</code></pre></div>
+<p><code>system</code>은 운영체제 명령을 실행하는 함수고, 명령은 운영체제마다 다르다. Windows 콘솔 창을 붙잡아두려고 쓰는 정도로만 알아두면 된다. Ctrl+F5로 실행하면 이미 창이 유지돼서 필요 없다.</p>
+<h3 id="_3">컴파일 오류가 났을 때</h3>
+<p>일부러 문장 끝의 <code>;</code>를 지우고 컴파일해보면 오류 메시지가 뜬다. 메시지를 더블클릭하면 해당 줄로 이동하는데, 이동한 줄이 실제로 틀린 줄이 아닐 때가 있다. <code>;</code>가 빠지면 컴파일러는 다음 줄까지 한 문장으로 이어서 읽기 때문에 "다음 줄이 이상하다"고 말한다. 그래서 표시된 줄이 이상해 보이지 않으면 바로 위 줄 끝을 확인하자. 오류를 고치는 작업을 디버깅이라고 한다.</p>
+<h3 id="_4">프로젝트 템플릿 만들어두기 (선택)</h3>
+<p>VS는 보안 검사를 엄격하게 해서 <code>scanf</code> 같은 함수에 경고를 에러처럼 띄운다. 매번 막히지 않으려면 처음에 한 번만 설정해서 템플릿으로 저장해두면 편하다.</p>
+<ol>
+<li>빈 프로젝트를 만들고 <code>HonGong.c</code> 같은 소스 파일을 추가</li>
+<li>소스 파일 우클릭 → [속성] → [구성 속성] → [C/C++] → [전처리기] → [전처리기 정의]에 <code>_CRT_SECURE_NO_WARNINGS</code> 추가</li>
+<li>[프로젝트] → [템플릿 내보내기] → [프로젝트 템플릿]으로 저장</li>
+</ol>
+<p>다음부터는 [빈 프로젝트] 대신 이 템플릿을 고르면 된다. 코드 맨 위에 <code>#define _CRT_SECURE_NO_WARNINGS</code>를 직접 쓰는 방법도 있다.</p>
+<div class="sec-label">SECTION 04</div><h2 id="_5">제일 기본 뼈대</h2>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
 
 int main(void)
@@ -37,25 +141,15 @@ int main(void)
     printf("Hello, C!\n");
     return 0;
 }</code></pre></div>
-<p>한 줄씩 뜯어보면 이렇다.</p>
 <ul>
-<li><code>#include &lt;stdio.h&gt;</code>: 입출력 함수(<code>printf</code>, <code>scanf</code> 등)를 쓰려고 불러오는 것. 이게 없으면 <code>printf</code>를 모른다고 한다.</li>
+<li><code>#include &lt;stdio.h&gt;</code>: 입출력 함수(<code>printf</code>, <code>scanf</code> 등)를 쓰려고 불러오는 것. 전처리 단계에서 처리된다.</li>
 <li><code>int main(void)</code>: 프로그램이 시작되는 곳. C 프로그램은 항상 <code>main</code>부터 실행된다.</li>
 <li><code>{ }</code>: <code>main</code>이 실행할 내용을 묶는 중괄호.</li>
 <li><code>printf(...)</code>: 화면에 출력.</li>
-<li><code>;</code>: 명령 하나가 끝났다는 표시. 문장 끝마다 붙인다.</li>
-<li><code>return 0;</code>: 프로그램이 문제없이 끝났다고 운영체제에 알려주는 값.</li>
+<li><code>;</code>: 명령 하나가 끝났다는 표시.</li>
+<li><code>return 0;</code>: 문제없이 끝났다고 운영체제에 알려주는 값.</li>
 </ul>
-<div class="sec-label">SECTION 03</div><h2 id="_3">주석</h2>
-<p>코드에 설명을 남길 때 쓴다. 컴파일할 때는 무시된다.</p>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">// 한 줄 주석
-
-/*
-   여러 줄
-   주석
-*/</code></pre></div>
-<p>내가 짠 코드도 일주일 지나면 남의 코드처럼 보여서, 짧게라도 적어두면 나중에 편하다. 코드 한 줄을 잠깐 꺼두고 싶을 때(주석 처리)도 많이 쓴다.</p>
-<div class="sec-label">SECTION 04</div><h2 id="_4">오류 종류</h2>
+<div class="sec-label">SECTION 05</div><h2 id="_6">오류 종류</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -77,16 +171,17 @@ int main(void)
 </tr>
 </tbody>
 </table></div>
-<p>문법 오류는 컴파일러가 줄 번호까지 알려주니까 그래도 찾기 쉽다. 진짜 힘든 건 논리 오류다. 에러는 안 나는데 답이 틀리니까 직접 값을 찍어보면서 따라가야 한다.</p>
-<p>오류 메시지는 첫 번째 것부터 보는 게 좋다. 앞에서 하나 틀리면 뒤에 줄줄이 에러가 따라 나오기도 해서, 첫 번째만 고치면 나머지가 한 번에 사라지는 경우가 많다.</p>
-<div class="sec-label">SECTION 05</div><h2 id="_5">처음에 자주 하는 실수</h2>
+<p>문법 오류는 컴파일러가 줄 번호까지 알려줘서 찾기 쉽다. 진짜 힘든 건 논리 오류다. 에러는 안 나는데 답이 틀리니까 직접 값을 찍어보면서 따라가야 한다.</p>
+<p>오류 메시지는 첫 번째 것부터 본다. 앞에서 하나 틀리면 뒤에 줄줄이 따라 나오는 일이 많아서, 첫 번째만 고치면 나머지가 같이 사라지기도 한다.</p>
+<div class="sec-label">SECTION 06</div><h2 id="_7">처음에 자주 하는 실수</h2>
 <ul>
 <li><code>printf</code>를 <code>Printf</code>나 <code>print</code>로 씀 (C는 대소문자를 구분한다)</li>
 <li>문장 끝 <code>;</code> 빼먹기</li>
 <li>큰따옴표 <code>"</code>를 열고 안 닫기</li>
 <li><code>#include &lt;stdio.h&gt;</code> 빼먹기</li>
+<li>파일 확장자를 <code>.c</code>가 아니라 <code>.cpp</code>로 만들기</li>
 </ul>
-<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>C 프로그램은 <code>main</code>에서 시작해서 위에서 아래로 한 줄씩 실행되고, 소스를 고치면 다시 컴파일해야 한다.</p></div></div>
+<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>소스 파일(.c)은 전처리, 컴파일, 링크 세 단계를 거쳐 실행 파일이 되고, 비주얼 스튜디오에서는 Ctrl+Shift+B로 빌드, Ctrl+F5로 실행한다.</p></div></div>
     </article>
     <div class="pager"><a class="next" href="../ch02/">02 상수와 데이터 출력 →</a></div>
   </main>
