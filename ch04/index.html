@@ -25,7 +25,9 @@
   </aside>
   <main class="content">
     <article class="prose">
+<p><strong>연산자</strong>(演算子 · 셈을 하는 기호)는 <code>+</code>, <code>=</code>, <code>&gt;</code>처럼 계산이나 비교를 시키는 기호이고, 연산자가 계산하는 값(<code>3 + 4</code>의 3과 4)은 <strong>피연산자</strong>(被演算子 · 계산을 당하는 값)라고 한다.</p>
 <div class="sec-label">SECTION 01</div><h2 id="_1">산술 연산자</h2>
+<p><strong>산술</strong>(算術 · 셈하는 방법, 사칙연산)</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -64,7 +66,7 @@ int main(void)
 }</code></pre></div>
 <p>둘 중 하나라도 실수면 실수로 계산된다. <code>%</code>는 정수에만 쓸 수 있다. 나머지 연산은 홀짝 판별(<code>n % 2</code>), 배수 확인(<code>n % 3 == 0</code>) 같은 데 자주 쓰인다.</p>
 <div class="sec-label">SECTION 02</div><h2 id="_2">대입 연산자</h2>
-<p><code>=</code>는 "같다"가 아니라 "오른쪽 값을 왼쪽에 넣는다"는 뜻이다. 그래서 <code>a = a + 1</code>이 성립한다. 줄여 쓰는 복합 대입도 있다.</p>
+<p><strong>대입</strong>(代入 · 대신 넣음). <code>=</code>는 "같다"가 아니라 "오른쪽 값을 왼쪽에 넣는다"는 뜻이다. 그래서 <code>a = a + 1</code>이 성립한다. 줄여 쓰는 복합 대입도 있다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 10;
 a += 3;   // a = a + 3  -&gt; 13
 a -= 1;   // a = a - 1  -&gt; 12
@@ -72,7 +74,7 @@ a *= 2;   // a = a * 2  -&gt; 24
 a /= 5;   // a = a / 5  -&gt; 4  (정수 나눗셈)
 a %= 3;   // a = a % 3  -&gt; 1</code></pre></div>
 <div class="sec-label">SECTION 03</div><h2 id="_3">증감 연산자</h2>
-<p><code>++</code>는 1 증가, <code>--</code>는 1 감소. 변수 앞에 붙이느냐 뒤에 붙이느냐에 따라 값이 쓰이는 시점이 다르다.</p>
+<p><strong>증감</strong>(增減 · 늘고 줆). <code>++</code>는 1 증가, <code>--</code>는 1 감소. 변수 앞에 붙이느냐 뒤에 붙이느냐에 따라 값이 쓰이는 시점이 다르다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 5;
 int b = a++;   // 먼저 b에 5를 넣고, 그 다음 a가 6
 printf("%d %d\n", a, b);   // 6 5
@@ -82,7 +84,7 @@ b = ++a;       // 먼저 a가 6이 되고, 그 값을 b에 넣음
 printf("%d %d\n", a, b);   // 6 6</code></pre></div>
 <p><code>a++</code>는 쓰고 나서 증가, <code>++a</code>는 증가하고 나서 쓴다고 외우면 된다. 단독으로 한 줄에 쓸 때는 둘 다 똑같으니 크게 신경 쓸 필요는 없고, 다른 식 안에 같이 들어갈 때만 조심하면 된다.</p>
 <div class="sec-label">SECTION 04</div><h2 id="_4">관계 연산자</h2>
-<p>두 값을 비교해서 참이면 1, 거짓이면 0이 나온다.</p>
+<p><strong>관계</strong>(關係 · 서로의 사이 → 두 값이 어떤 사이인지, 큰지 작은지 같은지). 두 값을 비교해서 참이면 1, 거짓이면 0이 나온다.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -115,6 +117,7 @@ printf("%d\n", 5 &gt;= 7);   // 0</code></pre></div>
 <p>C에는 참/거짓 전용 자료형이 따로 없어서 0은 거짓, 0이 아닌 모든 값은 참으로 취급한다. 이게 뒤의 선택문, 반복문에서 계속 중요하게 쓰인다.</p>
 <p><code>=</code>와 <code>==</code>를 헷갈리는 실수가 진짜 흔하다. <code>if (a = 3)</code>처럼 쓰면 비교가 아니라 대입이라서 항상 참이 된다. 에러도 안 나서 찾기 어렵다.</p>
 <div class="sec-label">SECTION 05</div><h2 id="_5">논리 연산자</h2>
+<p><strong>논리</strong>(論理 · 생각이나 추리를 이치에 맞게 이끌어 가는 원리 → 참·거짓을 조합하는 규칙)</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -145,16 +148,16 @@ printf("%d\n", 5 &gt;= 7);   // 0</code></pre></div>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 5;
 printf("%d\n", a &gt; 0 &amp;&amp; a &lt; 10);   // 1</code></pre></div>
 <p><code>0 &lt; a &lt; 10</code>으로 쓰면 에러는 안 나는데 의도대로 동작하지 않는다.</p>
-<p><code>&amp;&amp;</code>는 앞이 거짓이면 뒤를 아예 계산하지 않고, <code>||</code>는 앞이 참이면 뒤를 계산하지 않는다(단락 평가). 보통은 모르고 써도 문제없지만, 뒤쪽 식에 <code>++</code> 같은 게 들어 있으면 그게 실행이 안 될 수 있다.</p>
+<p><code>&amp;&amp;</code>는 앞이 거짓이면 뒤를 아예 계산하지 않고, <code>||</code>는 앞이 참이면 뒤를 계산하지 않는다. 이걸 <strong>단락 평가</strong>(短絡 · 짧게 이음, short-circuit → 중간에 지름길로 끝냄)라고 한다. 보통은 모르고 써도 문제없지만, 뒤쪽 식에 <code>++</code> 같은 게 들어 있으면 그게 실행이 안 될 수 있다.</p>
 <div class="sec-label">SECTION 06</div><h2 id="_6">형 변환</h2>
-<p>서로 다른 자료형이 섞이면 더 큰 쪽으로 맞춰서 계산한다(자동 형 변환). 내가 직접 바꾸고 싶을 때는 앞에 <code>(자료형)</code>을 붙인다.</p>
+<p><strong>형 변환</strong>(型變換 · 자료형을 다른 자료형으로 바꿈). 서로 다른 자료형이 섞이면 더 큰 쪽으로 맞춰서 계산한다(자동 형 변환). 내가 직접 바꾸고 싶을 때는 앞에 <code>(자료형)</code>을 붙인다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 7, b = 2;
 printf("%d\n", a / b);           // 3
 printf("%lf\n", (double)a / b);   // 3.500000
 printf("%lf\n", (double)(a / b)); // 3.000000</code></pre></div>
 <p>마지막 줄처럼 괄호 위치가 다르면 결과도 다르다. <code>(double)(a / b)</code>는 이미 정수 나눗셈을 끝낸 뒤에 바꾸는 거라 소용이 없다. 평균 구할 때 이걸 틀리는 경우가 많다.</p>
 <div class="sec-label">SECTION 07</div><h2 id="_7">연산자 우선순위</h2>
-<p>곱셈, 나눗셈이 덧셈, 뺄셈보다 먼저고, 대입은 거의 맨 마지막이다. 외우려고 하기보다는 헷갈리면 그냥 괄호를 쳐서 의도를 분명하게 쓰는 편이 낫다.</p>
+<p><strong>우선순위</strong>(優先順位 · 먼저 할 차례). 곱셈, 나눗셈이 덧셈, 뺄셈보다 먼저고, 대입은 거의 맨 마지막이다. 외우려고 하기보다는 헷갈리면 그냥 괄호를 쳐서 의도를 분명하게 쓰는 편이 낫다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int r = 2 + 3 * 4;     // 14
 int s = (2 + 3) * 4;   // 20</code></pre></div>
 <div class="sec-label">SECTION 08</div><h2 id="_8">비트 연산자 (간단히)</h2>
