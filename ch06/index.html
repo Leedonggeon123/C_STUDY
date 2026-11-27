@@ -444,45 +444,10 @@ int main(void)
 <li><code>count</code>: 지금까지 찍은 소수 개수. 하나 찍을 때마다 <code>count++</code>.</li>
 <li><code>count % 5 == 0</code>: 5, 10, 15 … 개째일 때만 참이라 그때 <code>\n</code>을 찍는다. "N개마다 무엇을 한다"는 건 거의 항상 <code>% N == 0</code>으로 푼다.</li>
 </ul>
-<h3 id="_10">같은 문제, 세 가지 풀이</h3>
-<p>소수 판별은 방법이 여러 개다. 결과는 셋 다 같다(100 입력으로 확인).</p>
+<h3 id="_10">같은 문제, 두 가지 풀이</h3>
+<p>소수 판별은 방법이 여러 개다. 결과는 둘 다 같다(100 입력으로 확인).</p>
 <p><strong>① 스위치(플래그) 방식</strong>: 위에서 본 코드. <code>isPrime</code>을 켜두고(1) 나눠지면 끈다(0). 책의 ①②③과 제일 비슷하다.</p>
-<p><strong>② break 방식</strong>: 플래그 변수 없이, 안쪽 반복이 <strong>어떻게 끝났는지</strong>로 판단한다.</p>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
-
-int main(void)
-{
-    int num, i, j;
-    int count = 0;
-
-    printf("2 이상의 정수를 입력하세요 : ");
-    scanf("%d", &amp;num);
-
-    for (i = 2; i &lt;= num; i++)
-    {
-        for (j = 2; j &lt; i; j++)
-        {
-            if (i % j == 0)
-                break;           // 나눠지면 바로 탈출
-        }
-
-        if (j == i)              // break 없이 끝까지 돌았다면 소수
-        {
-            printf("%5d", i);
-            count++;
-            if (count % 5 == 0)
-                printf("\n");
-        }
-    }
-    return 0;
-}</code></pre></div>
-<p>안쪽 for가 끝나는 경우는 두 가지다.</p>
-<ul>
-<li>중간에 나눠지는 수를 만나서 <code>break</code>로 빠져나옴 → 이때 <code>j</code>는 <code>i</code>보다 작다.</li>
-<li>한 번도 안 나눠져서 조건 <code>j &lt; i</code>가 거짓이 될 때까지 끝까지 돎 → 이때 <code>j</code>는 정확히 <code>i</code>.</li>
-</ul>
-<p>그래서 <code>j == i</code>면 소수다. 반복문이 끝난 뒤에도 <code>j</code> 값을 써야 하니까 <code>j</code>를 for 괄호 안이 아니라 위에서 미리 선언해야 한다.</p>
-<p><strong>③ 약수 개수 방식</strong>: 1부터 자기 자신까지 나눠서 나누어떨어지는 개수(약수 개수)를 센다. 소수는 약수가 1과 자기 자신 딱 <strong>2개</strong>뿐이다.</p>
+<p><strong>② 약수 개수 방식</strong>: 1부터 자기 자신까지 나눠서 나누어떨어지는 개수(약수 개수)를 센다. 소수는 약수가 1과 자기 자신 딱 <strong>2개</strong>뿐이다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
 
 int main(void)
@@ -513,7 +478,7 @@ int main(void)
     }
     return 0;
 }</code></pre></div>
-<p>이해하기는 제일 쉬운데, <code>break</code>가 없어서 소수가 아닌 게 확정된 뒤에도 끝까지 다 나눠본다. 그래서 셋 중 가장 느리다.</p>
+<p>이해하기는 제일 쉬운데, <code>break</code>가 없어서 소수가 아닌 게 확정된 뒤에도 끝까지 다 나눠본다. 그래서 스위치 방식보다 느리다.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -529,12 +494,6 @@ int main(void)
 <td><code>isPrime</code>이 1로 남았나</td>
 <td>책 설명과 같아서 읽기 쉬움</td>
 <td>변수 하나 더 필요</td>
-</tr>
-<tr>
-<td>break</td>
-<td>안쪽 반복이 끝까지 돌았나(<code>j == i</code>)</td>
-<td>변수가 적음</td>
-<td><code>j</code>를 바깥에 선언해야 함, 원리가 덜 직관적</td>
 </tr>
 <tr>
 <td>약수 개수</td>
