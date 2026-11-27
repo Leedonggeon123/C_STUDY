@@ -19,149 +19,487 @@
   <aside class="side">
     <div class="bignum">02</div>
     <h1>상수와 데이터 출력</h1>
-    <p class="desc">상수의 네 가지 종류, printf 서식 지정자, 이스케이프 시퀀스, 진법</p>
+    <p class="desc">main 구조, printf와 제어 문자, 상수 종류와 진법, 상수가 저장되는 비트 모양</p>
     <div class="toc-label">IN THIS CHAPTER</div>
-    <nav class="toc"><a href="#_1">상수: 값 자체</a><a href="#printf">printf로 값 출력하기</a><a href="#_2">이스케이프 시퀀스</a><a href="#_3">출력 모양 다듬기</a><a href="#_4">문자는 사실 숫자다</a><a href="#_5">진법 출력</a></nav>
+    <nav class="toc"><a href="#c">C 프로그램의 구조</a><a href="#printf">printf: 화면에 출력하기</a><a href="#_3">제어 문자</a><a href="#_4">숫자 출력: 변환 문자</a><a href="#_6">상수: 바뀌지 않는 데이터</a><a href="#_7">정수 상수와 진법</a><a href="#_9">실수 상수</a><a href="#_10">컴파일되고 나면 상수는 어떤 모양일까</a><a href="#_15">출력할 때 알아두면 좋은 것들</a></nav>
   </aside>
   <main class="content">
     <article class="prose">
-<div class="sec-label">SECTION 01</div><h2 id="_1">상수: 값 자체</h2>
-<p>코드에 직접 적어놓은 값을 상수라고 한다. 종류는 크게 네 가지.</p>
+<div class="sec-label">SECTION 01</div><h2 id="c">C 프로그램의 구조</h2>
+<p>C 프로그램은 함수로 이루어진다. 함수는 "어떤 일을 하는 코드 덩어리"고, 간단한 프로그램은 <code>main</code> 함수 하나로 끝나기도 한다. <code>main</code>은 프로그램의 시작점이라 반드시 있어야 한다. 함수는 7장에서 자세히 배우니 지금은 모양만 외워두자.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">/* 10과 20을 더하는 프로그램
+   (여러 줄 주석) */
+
+int main(void)        // 머리: 함수 이름과 필요한 데이터를 적는 곳
+{                     // 몸통 시작
+    10 + 20;          // 하고 싶은 일
+    return 0;         // 프로그램 종료
+}                     // 몸통 끝</code></pre></div>
+<p>함수는 머리(head)와 몸통(body)으로 나뉜다. 머리를 함수 원형이라고도 부른다. 할 일은 <code>{ }</code> 안에 적는다.</p>
+<p>이 프로그램을 돌려도 화면에는 아무것도 안 나온다. 10과 20을 더하긴 했지만 "그 결과를 어쩌라"는 명령이 없기 때문이다. 결과를 보려면 출력 함수가 필요하다.</p>
+<h3 id="_1">주석</h3>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>종류</th>
-<th>예</th>
-<th>비고</th>
+<th>형태</th>
+<th>범위</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>정수</td>
-<td><code>10</code>, <code>-3</code></td>
-<td>소수점 없음</td>
+<td><code>/* ~ */</code></td>
+<td>사이에 있는 모든 내용 (여러 줄 가능)</td>
 </tr>
 <tr>
-<td>실수</td>
-<td><code>3.14</code>, <code>-0.5</code></td>
-<td>소수점 있음</td>
-</tr>
-<tr>
-<td>문자</td>
-<td><code>'A'</code></td>
-<td>작은따옴표, 딱 한 글자</td>
-</tr>
-<tr>
-<td>문자열</td>
-<td><code>"Hello"</code></td>
-<td>큰따옴표, 여러 글자</td>
+<td><code>//</code></td>
+<td>그 줄 끝까지</td>
 </tr>
 </tbody>
 </table></div>
-<p><code>'A'</code>와 <code>"A"</code>는 완전히 다르다. 작은따옴표는 문자 하나, 큰따옴표는 문자열이다. 이거 헷갈려서 에러 나는 경우가 진짜 많다.</p>
-<div class="sec-label">SECTION 02</div><h2 id="printf">printf로 값 출력하기</h2>
-<p>문자열만 출력할 때는 그냥 쓰면 되지만, 값을 끼워 넣으려면 서식 지정자를 쓴다.</p>
+<p><code>/* */</code>는 줄 중간에도 끼울 수 있다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">10 /* 첫 번째 수 */ + 20 /* 두 번째 수 */;</code></pre></div>
+<p>주석은 전처리 단계에서 지워져서 컴파일러는 보지도 못한다. 사람이 읽으라고 쓰는 거니까 자세히 쓸수록 좋다.</p>
+<h3 id="_2">문장 쓰는 규칙</h3>
+<ul>
+<li>문장 끝은 세미콜론(<code>;</code>). 문장의 마침표라고 생각하면 된다. 빠지면 컴파일러가 다음 줄까지 한 문장으로 읽어서 엉뚱한 줄에 에러를 띄운다.</li>
+<li>한 줄에 한 문장씩. 세미콜론으로 구분만 되면 한 줄에 여러 문장, 한 문장을 여러 줄에 쓰는 것도 문법상은 되지만 읽기 힘들다.</li>
+<li>들여쓰기는 일정하게. 칸 수는 정해져 있지 않고 VC++은 기본 4칸이다.</li>
+</ul>
+<div class="sec-label">SECTION 02</div><h2 id="printf">printf: 화면에 출력하기</h2>
+<p><code>printf</code>는 print formatted, 정해진 형식에 따라 출력한다는 뜻이다. 읽을 때는 "프린트에프". 기본 기능은 문자열 출력이고, 쓰려면 <code>#include &lt;stdio.h&gt;</code>가 있어야 한다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
 
 int main(void)
 {
-    printf("정수: %d\n", 10);
-    printf("실수: %f\n", 3.14);
-    printf("문자: %c\n", 'A');
-    printf("문자열: %s\n", "Hello");
+    printf("Be happy");
+    printf("My friend");
     return 0;
 }</code></pre></div>
+<p>두 줄로 썼는데 실행하면 <code>Be happyMy friend</code>처럼 한 줄에 붙어서 나온다. 줄 바꿈은 알아서 안 해주기 때문이다. 줄을 바꾸려면 제어 문자를 써야 한다.</p>
+<p>참고로 'a'처럼 한 글자는 문자, "apple"처럼 글자가 이어진 건 문자열이다.</p>
+<div class="sec-label">SECTION 03</div><h2 id="_3">제어 문자</h2>
+<p>제어 문자는 글자로 찍히는 게 아니라 출력 방식에 영향을 주는 문자고, 백슬래시(<code>\</code>)와 같이 쓴다. 한국 키보드에서는 <code>\</code> 자리에 <code>₩</code>가 찍히기도 한다.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>지정자</th>
-<th>출력하는 것</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>%d</code></td>
-<td>정수</td>
-</tr>
-<tr>
-<td><code>%f</code></td>
-<td>실수</td>
-</tr>
-<tr>
-<td><code>%c</code></td>
-<td>문자</td>
-</tr>
-<tr>
-<td><code>%s</code></td>
-<td>문자열</td>
-</tr>
-</tbody>
-</table></div>
-<p>따옴표 안의 <code>%d</code> 자리에 뒤에 적은 값이 순서대로 들어간다고 생각하면 된다. 지정자 개수와 값 개수는 맞춰야 한다. 그리고 종류도 맞아야 해서, 정수를 <code>%f</code>로 찍으면 엉뚱한 값이 나온다.</p>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%d + %d = %d\n", 3, 4, 7);   // 3 + 4 = 7</code></pre></div>
-<div class="sec-label">SECTION 03</div><h2 id="_2">이스케이프 시퀀스</h2>
-<p>화면에 그대로 못 찍는 문자를 <code>\</code>와 함께 쓰는 것.</p>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>표기</th>
-<th>의미</th>
+<th>제어 문자</th>
+<th>이름</th>
+<th>하는 일</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>\n</code></td>
-<td>줄 바꿈</td>
+<td>개행(new line)</td>
+<td>다음 줄로 이동</td>
 </tr>
 <tr>
 <td><code>\t</code></td>
 <td>탭</td>
+<td>다음 탭 위치로 이동</td>
 </tr>
 <tr>
-<td><code>\\</code></td>
-<td>역슬래시 <code>\</code> 자체</td>
+<td><code>\r</code></td>
+<td>캐리지 리턴</td>
+<td>줄 맨 앞으로 이동</td>
 </tr>
 <tr>
-<td><code>\"</code></td>
-<td>큰따옴표 자체</td>
+<td><code>\b</code></td>
+<td>백스페이스</td>
+<td>한 칸 왼쪽으로 이동</td>
 </tr>
 <tr>
-<td><code>\'</code></td>
-<td>작은따옴표 자체</td>
-</tr>
-<tr>
-<td><code>%%</code></td>
-<td>퍼센트 <code>%</code> 자체</td>
+<td><code>\a</code></td>
+<td>알럿</td>
+<td>경고음(벨소리)</td>
 </tr>
 </tbody>
 </table></div>
-<p><code>%</code>는 이스케이프가 아니라 printf 규칙이라 <code>\%</code>가 아니고 <code>%%</code>로 쓴다. 이게 은근히 헷갈린다.</p>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("이름\t점수\n");
-printf("철수\t90\n");
-printf("정답률 80%%\n");
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("Be happy\n");
+printf("12345678901234567890\n");
+printf("My\tfriend\n");
+printf("Goot\bd\tchance\n");
+printf("Cow\rW\a\n");</code></pre></div>
+<p>하나씩 따라가보면 이렇다.</p>
+<ul>
+<li><code>\n</code>: 출력하고 줄을 바꾼다.</li>
+<li><code>\t</code>: 화면을 8칸 단위로 나눠서 각 구역의 첫 칸(1, 9, 17번째 칸…)이 탭 위치다. 커서가 1~8번 칸 어디 있든 <code>\t</code>를 만나면 9번 칸으로 간다. 그래서 열을 맞춰서 출력할 때 좋다.</li>
+<li><code>\b</code>: <code>Goot</code>을 찍고 <code>\b</code>로 한 칸 뒤로 가서 <code>d</code>를 찍으면 마지막 <code>t</code>가 <code>d</code>로 덮여서 <code>Good</code>이 된다. 그 뒤 <code>\t</code>로 탭 이동.</li>
+<li><code>\r</code>: <code>Cow</code>를 찍고 맨 앞으로 돌아가서 <code>W</code>를 찍으면 <code>C</code>가 <code>W</code>로 덮여서 <code>Wow</code>가 된다. <code>\a</code>는 소리만 낸다.</li>
+</ul>
+<p><code>\b</code>와 <code>\r</code>은 "이미 찍은 글자를 덮어쓴다"는 점이 포인트. 실제 콘솔에서 돌려보면 이해가 빠르다.</p>
+<div class="sec-label">SECTION 04</div><h2 id="_4">숫자 출력: 변환 문자</h2>
+<p><code>printf</code>는 기본적으로 문자열을 출력하는 함수라서 숫자를 찍으려면 변환 문자로 문자열 형태를 알려줘야 한다. 정수는 <code>%d</code>(decimal), 실수는 <code>%lf</code>(long float)를 쓴다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    printf("%d\n", 10);                 // 10
+    printf("%lf\n", 3.4);               // 3.400000
+    printf("%.1lf\n", 3.45);            // 소수점 첫째 자리까지
+    printf("%d + %d = %d\n", 10, 20, 10 + 20);
+    return 0;
+}</code></pre></div>
+<p>따옴표 안의 <code>%d</code> 자리에 콤마 뒤의 값이 앞에서부터 차례대로 들어간다. 변환 문자 개수와 값 개수는 맞아야 한다. 값 자리에 <code>10 + 20</code> 같은 식을 쓰면 계산한 결과가 찍힌다.</p>
+<h3 id="_5">소수점 자릿수와 반올림</h3>
+<p><code>%lf</code>는 소수점 아래 6자리까지 찍는다. 자릿수를 바꾸려면 <code>%</code>와 <code>lf</code> 사이에 점과 숫자를 넣는다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%lf\n", 3.4);      // 3.400000
+printf("%.1lf\n", 3.45);   // 3.5 (둘째 자리에서 반올림)
+printf("%.2lf\n", 3.14159); // 3.14</code></pre></div>
+<p>잘리는 부분은 반올림돼서 나온다. 그리고 유효 숫자가 6자리를 넘는 값을 그냥 <code>%lf</code>로 찍으면 뒷부분이 잘려 보이니까, 자릿수를 충분히 크게 잡아야 한다.</p>
+<h3 id="printf_1">정리: printf 사용법</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>출력할 것</th>
+<th>예</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>문자열</td>
+<td><code>printf("Be happy!");</code></td>
+<td>Be happy!</td>
+</tr>
+<tr>
+<td>제어 문자</td>
+<td><code>printf("Be happy!\n");</code></td>
+<td>Be happy! 후 줄 바꿈</td>
+</tr>
+<tr>
+<td>정수</td>
+<td><code>printf("%d", 10);</code></td>
+<td>10</td>
+</tr>
+<tr>
+<td>실수</td>
+<td><code>printf("%lf", 3.4);</code></td>
+<td>3.400000</td>
+</tr>
+<tr>
+<td>식</td>
+<td><code>printf("%d", 10 + 20);</code></td>
+<td>30</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sec-label">SECTION 05</div><h2 id="_6">상수: 바뀌지 않는 데이터</h2>
+<p>C에서 다루는 데이터는 정수, 실수, 문자, 문자열이다. 그리고 값이 바뀔 수 있는 건 변수, 안 바뀌는 건 상수다. 코드에 직접 적은 값이 상수고, 원주율(3.14)처럼 정해져 있고 바뀌면 안 되는 값에 쓴다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>종류</th>
+<th>예</th>
+<th>표현 방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정수 상수</td>
+<td><code>10</code>, <code>-3</code>, <code>0</code></td>
+<td>0~9, +, -</td>
+</tr>
+<tr>
+<td>실수 상수</td>
+<td><code>3.4</code>, <code>-1.5</code>, <code>.5</code></td>
+<td>위 + 소수점</td>
+</tr>
+<tr>
+<td>문자 상수</td>
+<td><code>'A'</code>, <code>'0'</code></td>
+<td><strong>작은따옴표</strong>로 한 글자</td>
+</tr>
+<tr>
+<td>문자열 상수</td>
+<td><code>"A"</code>, <code>"banana"</code></td>
+<td><strong>큰따옴표</strong>로 글자들</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>'A'</code>와 <code>"A"</code>는 다르다. 글자가 하나여도 큰따옴표로 감싸면 문자열이다. 구분하는 건 따옴표 종류뿐이다.</p>
+<p>문자는 <code>%c</code>, 문자열은 <code>%s</code>로 출력한다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%c\n", 'A');            // A
+printf("%s\n", "A");            // A
+printf("%c와 %s\n", '1', "first");   // 1와 first</code></pre></div>
+<div class="sec-label">SECTION 06</div><h2 id="_7">정수 상수와 진법</h2>
+<p>정수는 10진수, 8진수, 16진수로 쓸 수 있다. 0~15를 비교하면 이렇다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>10진수</th>
+<th>0</th>
+<th>1</th>
+<th>…</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8진수</td>
+<td>0</td>
+<td>1</td>
+<td>…</td>
+<td>7</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+<td>17</td>
+</tr>
+<tr>
+<td>16진수</td>
+<td>0</td>
+<td>1</td>
+<td>…</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+</tr>
+</tbody>
+</table></div>
+<p>8진수는 숫자를 0~7 여덟 개만 쓰니까 8이 되면 자리가 올라가서 <code>10</code>이 된다. 16진수는 0~9에 A~F(10~15)까지 총 16개를 쓴다. 2진수는 길어서 코드에 쓰기엔 불편하다.</p>
+<p><code>10</code>이 10진수인지 8진수인지 코드만 봐서는 모르니까 접두사로 구분한다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>진법</th>
+<th>접두사</th>
+<th>예</th>
+<th>10진수 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10진수</td>
+<td>없음</td>
+<td><code>13</code></td>
+<td>13</td>
+</tr>
+<tr>
+<td>8진수</td>
+<td><code>0</code> (영)</td>
+<td><code>015</code></td>
+<td>13</td>
+</tr>
+<tr>
+<td>16진수</td>
+<td><code>0x</code> (영엑스)</td>
+<td><code>0xD</code></td>
+<td>13</td>
+</tr>
+</tbody>
+</table></div>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%d\n", 13);    // 13
+printf("%d\n", 015);   // 13
+printf("%d\n", 0xD);   // 13</code></pre></div>
+<p>세 개 다 같은 값이라서 결과가 똑같다. 앞에 <code>0</code>을 붙이면 8진수가 된다는 걸 모르고 <code>011</code>을 11이라고 쓰면 9가 나온다.</p>
+<h3 id="_8">다른 진법으로 출력하기</h3>
+<p>10진수 값도 변환 문자로 8진수나 16진수로 찍을 수 있다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>변환 문자</th>
+<th>출력</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%d</code></td>
+<td>10진수</td>
+</tr>
+<tr>
+<td><code>%o</code></td>
+<td>8진수</td>
+</tr>
+<tr>
+<td><code>%x</code></td>
+<td>16진수(소문자 a~f)</td>
+</tr>
+<tr>
+<td><code>%X</code></td>
+<td>16진수(대문자 A~F)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%o\n", 13);    // 15
+printf("%x\n", 255);   // ff
+printf("%X\n", 255);   // FF</code></pre></div>
+<div class="sec-label">SECTION 07</div><h2 id="_9">실수 상수</h2>
+<p>실수는 소수점 형태와 지수 형태로 쓴다.</p>
+<ul>
+<li>소수점 형태: <code>3.4</code>, <code>-1.6</code>, <code>+10.0</code>. 소수점 앞뒤의 의미 없는 0은 생략 가능해서 <code>.5</code>, <code>10.</code>도 된다.</li>
+<li>지수 형태: 아주 크거나 작은 값을 쓸 때 편하다. <code>0.0000314</code>는 3.14 × 10⁻⁵인데, C에서는 <code>×10</code>을 <code>e</code>로 바꿔서 <code>3.14e-5</code>라고 쓴다. <code>e</code>는 대문자 <code>E</code>도 된다.</li>
+</ul>
+<p>지수 형태는 같은 값을 여러 방식으로 쓸 수 있다. <code>31.4e-6</code>, <code>0.314e-4</code>, <code>3.14e-5</code>는 모두 같은 값이다. 그중 소수점 앞에 0이 아닌 숫자가 한 자리만 오게 맞춘 걸 <strong>정규화 표기법</strong>이라 하고, <code>printf</code>가 지수로 찍을 때는 항상 이 형태로 찍는다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%.1lf\n", 1e6);        // 1000000.0  (지수로 써도 기본 출력은 소수점)
+printf("%.7lf\n", 3.14e-5);    // 0.0000314
+printf("%le\n", 0.0000314);    // 3.140000e-05
+printf("%.2le\n", 0.0000314);  // 3.14e-05</code></pre></div>
+<p>코드에 지수로 썼어도 <code>%lf</code>로 찍으면 소수점 형태로 나온다. 지수 형태로 보고 싶으면 <code>%le</code>를 쓰고, <code>.2</code>처럼 소수점 이하 자릿수도 지정할 수 있다. <code>3.14e-5</code>는 소수점 이하 7자리라서 <code>%lf</code>(6자리)로 찍으면 잘리니 <code>%.7lf</code>로 찍어야 한다.</p>
+<div class="sec-label">SECTION 08</div><h2 id="_10">컴파일되고 나면 상수는 어떤 모양일까</h2>
+<p>코드는 사실 텍스트일 뿐이다. <code>10 + 20;</code>을 입력하면 <code>1</code>, <code>0</code>, 공백, <code>+</code>, … 이 전부 문자로 저장된다. 컴퓨터 입장에서 <code>+</code>는 "더하라"는 명령이 아니라 그냥 <code>+</code> 글자고, <code>10</code>도 계산할 수 있는 수가 아니라 글자 두 개다. 컴파일을 거쳐야 연산자는 명령어, 상수는 계산 가능한 값으로 바뀐다. 그래서 컴파일 없이는 실행이 안 된다.</p>
+<p>컴퓨터는 모든 걸 비트(bit)로 저장한다. 1비트는 0 또는 1, 8비트가 1바이트다. 1바이트는 2⁸ = 256가지 값을 표현하고, 4바이트(32비트)는 2³² 가지. 크기가 클수록 큰 값을 쓸 수 있지만 메모리와 연산 부담이 커서 무작정 키울 순 없다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>상수 종류</th>
+<th>크기</th>
+<th>변환 형태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정수</td>
+<td>4바이트(32비트)</td>
+<td>2진수</td>
+</tr>
+<tr>
+<td>실수</td>
+<td>8바이트(64비트)</td>
+<td>IEEE 754의 double 형식</td>
+</tr>
+<tr>
+<td>문자</td>
+<td>아스키 코드 값(정수와 같은 방식)</td>
+<td>2진수</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_11">정수와 실수는 같은 숫자여도 다르게 저장된다</h3>
+<p><code>10</code>과 <code>10.0</code>은 눈엔 거의 같지만 컴퓨터는 전혀 다른 비트 모양으로 저장한다. 정수는 4바이트에 그냥 2진수로 <code>1010</code>, 실수는 8바이트에 부호·지수·소수 규칙대로 저장한다. 정수가 연산도 제일 빠르고 정확해서 정수로 되는 건 정수 상수를 쓰는 게 좋다.</p>
+<h3 id="_12">문자 상수</h3>
+<p>문자는 아스키 코드 값으로 저장돼서 컴퓨터 안에서는 정수와 똑같이 다뤄진다. 예를 들어 <code>'A'</code>의 아스키 값은 65고, 정수 <code>65</code>와 같은 비트로 저장된다. 아스키 코드는 128개 문자(영문 대소문자, 숫자, 특수문자, 제어 문자)에 번호를 붙여둔 약속이다.</p>
+<h3 id="_13">정수 상수 범위</h3>
+<p>양수는 값을 그대로 2진수로 바꾸고 남는 앞자리를 0으로 채운다. 13은 <code>1101</code>이니까 32비트로는 앞에 0이 28개 붙는다.</p>
+<p>n비트로 쓸 수 있는 양의 정수 범위는 0 ~ 2ⁿ−1이다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>비트 수</th>
+<th>범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1비트</td>
+<td>0 ~ 1</td>
+</tr>
+<tr>
+<td>8비트</td>
+<td>0 ~ 255</td>
+</tr>
+<tr>
+<td>32비트</td>
+<td>0 ~ 4294967295</td>
+</tr>
+</tbody>
+</table></div>
+<p>4294967295보다 큰 정수 상수를 쓰면 컴파일러가 알아서 8바이트로 늘려 처리한다(VC++ 기준). 값이 작아도 8바이트로 만들고 싶으면 뒤에 <code>LL</code>(또는 <code>ll</code>)을 붙인다. Long Long이라는 뜻.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">13        // 4바이트
+13LL       // 8바이트</code></pre></div>
+<h3 id="2">음수는 2의 보수</h3>
+<p>음수는 절댓값을 2의 보수로 바꿔 저장한다. 2의 보수는 "비트를 전부 뒤집고(1의 보수) 1을 더한 것"이다. -10을 8비트로 흉내 내면:</p>
+<ol>
+<li>절댓값 10 → <code>00001010</code></li>
+<li>비트 뒤집기 → <code>11110101</code></li>
+<li>1 더하기 → <code>11110110</code> ← 이게 -10</li>
+</ol>
+<p>왜 이렇게 하냐면, 부호 처리 없이 양수와 음수를 그냥 더해도 맞는 결과가 나오기 때문이다. 10(<code>00001010</code>)과 -10(<code>11110110</code>)을 더하면 <code>100000000</code>이 되는데, 8비트를 넘어선 맨 앞 올림수는 버려져서 결과가 0이 된다.</p>
+<h3 id="ieee-754-double">실수는 IEEE 754 double 형식</h3>
+<p>실수는 2진수로 그대로 바꾸면 값이 클수록, 소수점이 길수록 비트가 너무 많이 필요해서 규칙을 따로 정했다. 8바이트(64비트)를 이렇게 나눈다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>구간</th>
+<th>비트 수</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>부호 비트</td>
+<td>1</td>
+<td>0이면 양수, 1이면 음수</td>
+</tr>
+<tr>
+<td>지수부</td>
+<td>11</td>
+<td>지수 값</td>
+</tr>
+<tr>
+<td>소수부</td>
+<td>52</td>
+<td>소수 값</td>
+</tr>
+</tbody>
+</table></div>
+<p>표현할 수 있는 범위는 대략 ±1.8 × 10³⁰⁸ 정도로 엄청 넓다.</p>
+<h3 id="_14">실수에는 오차가 있다</h3>
+<p>범위는 넓은데 정확도는 한계가 있다. <code>0.1234567890123456789</code>처럼 유효 숫자가 많으면 정확히 저장이 안 되고 오차가 생긴다. 소수부 비트는 2⁻¹(0.5), 2⁻²(0.25), 2⁻³(0.125), 2⁻⁴(0.0625)… 같은 값들의 합으로만 소수를 만드는데, 예를 들어 0.09는 이 값들의 조합으로 딱 떨어지게 못 만들어서 가장 가까운 값으로 저장된다. 비트가 52개로 늘어도 한계는 있어서 double은 유효 숫자 15자리 정도까지만 믿고 쓰는 게 안전하다.</p>
+<div class="sec-label">SECTION 09</div><h2 id="_15">출력할 때 알아두면 좋은 것들</h2>
+<p><strong>글자 자체를 찍고 싶을 때</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>쓰는 것</th>
+<th>찍히는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\\</code></td>
+<td>역슬래시 <code>\</code></td>
+</tr>
+<tr>
+<td><code>\"</code></td>
+<td>큰따옴표 <code>"</code></td>
+</tr>
+<tr>
+<td><code>\'</code></td>
+<td>작은따옴표 <code>'</code></td>
+</tr>
+<tr>
+<td><code>%%</code></td>
+<td>퍼센트 <code>%</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>%</code>는 제어 문자가 아니라 printf 규칙이라 <code>\%</code>가 아니라 <code>%%</code>다. 은근히 헷갈린다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("정답률 80%%\n");
 printf("그는 \"안녕\"이라고 했다\n");</code></pre></div>
-<div class="sec-label">SECTION 04</div><h2 id="_3">출력 모양 다듬기</h2>
-<p>실수는 그냥 <code>%f</code>를 쓰면 소수점 아래 6자리까지 나온다. 자릿수는 직접 정할 수 있다.</p>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%f\n", 3.14);     // 3.140000
-printf("%.2f\n", 3.14159); // 3.14 (반올림)
-printf("[%5d]\n", 42);     // [   42]  폭 5칸, 오른쪽 정렬
+<p><strong>폭 맞추기</strong></p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("[%5d]\n", 42);     // [   42]  폭 5칸, 오른쪽 정렬
 printf("[%-5d]\n", 42);    // [42   ]  왼쪽 정렬
 printf("[%05d]\n", 42);    // [00042]  빈칸을 0으로</code></pre></div>
-<p>표 형태로 정렬해서 출력할 때 폭 지정이 꽤 쓸모 있다.</p>
-<div class="sec-label">SECTION 05</div><h2 id="_4">문자는 사실 숫자다</h2>
-<p>컴퓨터 안에서 문자는 숫자(아스키 코드)로 저장된다. 그래서 같은 값을 <code>%c</code>로 찍으면 문자, <code>%d</code>로 찍으면 숫자가 나온다.</p>
+<p>표처럼 줄을 맞춰 출력할 때 쓸모 있다.</p>
+<p><strong>문자는 숫자이기도 하다</strong></p>
+<p>문자가 아스키 값으로 저장된다는 건 이런 뜻이다. 같은 값을 <code>%c</code>로 찍으면 문자, <code>%d</code>로 찍으면 숫자.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%c\n", 'A');   // A
 printf("%d\n", 'A');   // 65
 printf("%c\n", 66);    // B</code></pre></div>
-<p>대문자 <code>A</code>는 65, 소문자 <code>a</code>는 97이다. 이 차이가 32라는 건 나중에 대소문자 변환할 때 쓸 수 있다.</p>
-<div class="sec-label">SECTION 06</div><h2 id="_5">진법 출력</h2>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%d\n", 17);    // 10진수 17
-printf("%o\n", 17);    // 8진수  21
-printf("%x\n", 255);   // 16진수 ff
-printf("%d\n", 0x1F);  // 16진수로 쓴 상수 -&gt; 31
-printf("%d\n", 011);   // 8진수로 쓴 상수 -&gt; 9</code></pre></div>
-<p>코드에서 숫자 앞에 <code>0</code>을 붙이면 8진수, <code>0x</code>를 붙이면 16진수로 읽는다. <code>011</code>을 11로 착각하기 쉬우니 앞에 0 붙이는 습관은 조심.</p>
-<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p><code>printf</code>는 따옴표 안의 서식 지정자(<code>%d</code>, <code>%f</code>, <code>%c</code>, <code>%s</code>) 자리에 뒤의 값을 순서대로 끼워 넣는 함수이고, 개수와 종류를 맞춰야 한다.</p></div></div>
+<p>대문자 <code>A</code>는 65, 소문자 <code>a</code>는 97로 차이가 32다. 나중에 대소문자를 바꿀 때 쓸 수 있다.</p>
+<p><strong>지정자와 값은 짝이 맞아야 한다</strong></p>
+<p>정수를 <code>%lf</code>로 찍거나 개수를 안 맞추면 엉뚱한 값이 나온다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%d + %d = %d\n", 3, 4, 7);   // 3 + 4 = 7</code></pre></div>
+<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p><code>printf</code>는 <code>%d</code>, <code>%lf</code>, <code>%c</code>, <code>%s</code> 같은 변환 문자 자리에 값을 차례로 끼워 출력하고, 상수는 컴파일되면 정수는 4바이트 2진수, 실수는 8바이트 IEEE 754, 문자는 아스키 값으로 바뀐다.</p></div></div>
     </article>
     <div class="pager"><a class="prev" href="../ch01/">← 01 프로그램 만들기</a><a class="next" href="../ch03/">03 변수와 데이터 입력 →</a></div>
   </main>
