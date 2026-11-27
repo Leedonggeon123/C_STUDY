@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 프로그램 만들기 · 혼공C NOTES</title>
+<meta name="description" content="혼자 공부하는 C언어를 공부하며 정리한 노트">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../">혼공C NOTES</a>
+  <nav class="topnav"><a href="../">INDEX</a><a href="https://github.com/Leedonggeon123/C_STUDY" target="_blank" rel="noopener">GITHUB ↗</a></nav>
+</div></header>
+<div class="wrap chapter">
+  <aside class="side">
+    <div class="bignum">01</div>
+    <h1>프로그램 만들기</h1>
+    <p class="desc">소스 코드가 실행 파일이 되는 과정, main 뼈대, 주석, 오류의 종류</p>
+    <div class="toc-label">IN THIS CHAPTER</div>
+    <nav class="toc"><a href="#_1">프로그램이 만들어지는 과정</a><a href="#_2">제일 기본 뼈대</a><a href="#_3">주석</a><a href="#_4">오류 종류</a><a href="#_5">처음에 자주 하는 실수</a></nav>
+  </aside>
+  <main class="content">
+    <article class="prose">
+<div class="sec-label">SECTION 01</div><h2 id="_1">프로그램이 만들어지는 과정</h2>
+<p>C로 짠 코드는 그대로 실행되지 않는다. 사람이 읽는 코드(소스 파일, <code>.c</code>)를 컴파일러가 기계어로 바꿔줘야 실행 파일이 나온다.</p>
+<div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>소스 코드(.c) → 컴파일 → 실행 파일(.exe) → 실행</code></pre></div>
+<p>코드를 고치면 반드시 다시 컴파일해야 바뀐 내용이 반영된다. 처음엔 이걸 깜빡하고 "왜 안 바뀌지?" 하게 되는 일이 많다.</p>
+<div class="sec-label">SECTION 02</div><h2 id="_2">제일 기본 뼈대</h2>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    printf("Hello, C!\n");
+    return 0;
+}</code></pre></div>
+<p>한 줄씩 뜯어보면 이렇다.</p>
+<ul>
+<li><code>#include &lt;stdio.h&gt;</code>: 입출력 함수(<code>printf</code>, <code>scanf</code> 등)를 쓰려고 불러오는 것. 이게 없으면 <code>printf</code>를 모른다고 한다.</li>
+<li><code>int main(void)</code>: 프로그램이 시작되는 곳. C 프로그램은 항상 <code>main</code>부터 실행된다.</li>
+<li><code>{ }</code>: <code>main</code>이 실행할 내용을 묶는 중괄호.</li>
+<li><code>printf(...)</code>: 화면에 출력.</li>
+<li><code>;</code>: 명령 하나가 끝났다는 표시. 문장 끝마다 붙인다.</li>
+<li><code>return 0;</code>: 프로그램이 문제없이 끝났다고 운영체제에 알려주는 값.</li>
+</ul>
+<div class="sec-label">SECTION 03</div><h2 id="_3">주석</h2>
+<p>코드에 설명을 남길 때 쓴다. 컴파일할 때는 무시된다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">// 한 줄 주석
+
+/*
+   여러 줄
+   주석
+*/</code></pre></div>
+<p>내가 짠 코드도 일주일 지나면 남의 코드처럼 보여서, 짧게라도 적어두면 나중에 편하다. 코드 한 줄을 잠깐 꺼두고 싶을 때(주석 처리)도 많이 쓴다.</p>
+<div class="sec-label">SECTION 04</div><h2 id="_4">오류 종류</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>종류</th>
+<th>언제 나오나</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>문법 오류</td>
+<td>컴파일할 때</td>
+<td>세미콜론 빠짐, 괄호 짝 안 맞음</td>
+</tr>
+<tr>
+<td>논리 오류</td>
+<td>실행은 되는데 결과가 이상함</td>
+<td>계산식을 잘못 짬</td>
+</tr>
+</tbody>
+</table></div>
+<p>문법 오류는 컴파일러가 줄 번호까지 알려주니까 그래도 찾기 쉽다. 진짜 힘든 건 논리 오류다. 에러는 안 나는데 답이 틀리니까 직접 값을 찍어보면서 따라가야 한다.</p>
+<p>오류 메시지는 첫 번째 것부터 보는 게 좋다. 앞에서 하나 틀리면 뒤에 줄줄이 에러가 따라 나오기도 해서, 첫 번째만 고치면 나머지가 한 번에 사라지는 경우가 많다.</p>
+<div class="sec-label">SECTION 05</div><h2 id="_5">처음에 자주 하는 실수</h2>
+<ul>
+<li><code>printf</code>를 <code>Printf</code>나 <code>print</code>로 씀 (C는 대소문자를 구분한다)</li>
+<li>문장 끝 <code>;</code> 빼먹기</li>
+<li>큰따옴표 <code>"</code>를 열고 안 닫기</li>
+<li><code>#include &lt;stdio.h&gt;</code> 빼먹기</li>
+</ul>
+<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>C 프로그램은 <code>main</code>에서 시작해서 위에서 아래로 한 줄씩 실행되고, 소스를 고치면 다시 컴파일해야 한다.</p></div></div>
+    </article>
+    <div class="pager"><a class="next" href="../ch02/">02 상수와 데이터 출력 →</a></div>
+  </main>
+</div>
+<footer class="foot"><div class="wrap"><span>혼자 공부하는 C언어 · 개인 학습 노트</span><span>예제 코드는 직접 컴파일해서 확인했습니다</span></div></footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>
