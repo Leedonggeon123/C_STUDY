@@ -19,9 +19,9 @@
   <aside class="side">
     <div class="bignum">04</div>
     <h1>연산자</h1>
-    <p class="desc">정수 나눗셈의 함정, 증감·관계·논리 연산자, 형 변환, 우선순위</p>
+    <p class="desc">정수 나눗셈, 증감·관계·논리 연산자, 형 변환, sizeof, 조건·비트 연산자, 우선순위</p>
     <div class="toc-label">IN THIS CHAPTER</div>
-    <nav class="toc"><a href="#_1">산술 연산자</a><a href="#_2">대입 연산자</a><a href="#_3">증감 연산자</a><a href="#_4">관계 연산자</a><a href="#_5">논리 연산자</a><a href="#_6">형 변환</a><a href="#_7">연산자 우선순위</a><a href="#_8">비트 연산자 (간단히)</a></nav>
+    <nav class="toc"><a href="#_1">산술 연산자</a><a href="#_2">대입 연산자</a><a href="#_3">증감 연산자</a><a href="#_4">관계 연산자</a><a href="#_5">논리 연산자</a><a href="#_6">형 변환</a><a href="#_7">연산자 우선순위</a><a href="#_8">비트 연산자 (간단히)</a><a href="#sizeof">sizeof: 크기 확인</a><a href="#_9">복합대입 연산자의 종류</a><a href="#_10">콤마 연산자</a><a href="#_11">조건 연산자 (삼항)</a><a href="#_12">연산 방향과 우선순위 정리</a></nav>
   </aside>
   <main class="content">
     <article class="prose">
@@ -193,6 +193,72 @@ int s = (2 + 3) * 4;   // 20</code></pre></div>
 printf("%d\n", 6 | 3);    // 110 | 011 = 111 -&gt; 7
 printf("%d\n", 1 &lt;&lt; 3);   // 1을 왼쪽으로 3칸 -&gt; 8</code></pre></div>
 <p><code>&amp;&amp;</code>, <code>||</code>(논리)와 <code>&amp;</code>, <code>|</code>(비트)는 이름이 비슷해서 헷갈리지만 완전히 다른 연산자다.</p>
+<div class="sec-label">SECTION 09</div><h2 id="sizeof">sizeof: 크기 확인</h2>
+<p>자료형이나 값이 몇 바이트인지 알려주는 연산자다. 함수처럼 보이지만 연산자다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 10;
+printf("%zu\n", sizeof(a));        // 4
+printf("%zu\n", sizeof(double));   // 8
+printf("%zu\n", sizeof(10));       // 4  (정수 상수)
+printf("%zu\n", sizeof(10.0));     // 8  (실수 상수)</code></pre></div>
+<div class="sec-label">SECTION 10</div><h2 id="_9">복합대입 연산자의 종류</h2>
+<p>산술 연산자뿐 아니라 비트 연산자도 <code>=</code>와 합칠 수 있다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>연산자</th>
+<th>같은 뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a += b</code></td>
+<td><code>a = a + b</code></td>
+</tr>
+<tr>
+<td><code>a -= b</code></td>
+<td><code>a = a - b</code></td>
+</tr>
+<tr>
+<td><code>a *= b</code></td>
+<td><code>a = a * b</code></td>
+</tr>
+<tr>
+<td><code>a /= b</code></td>
+<td><code>a = a / b</code></td>
+</tr>
+<tr>
+<td><code>a %= b</code></td>
+<td><code>a = a % b</code></td>
+</tr>
+<tr>
+<td><code>a &amp;= b</code> <code>a |= b</code> <code>a ^= b</code></td>
+<td>비트 연산 후 대입</td>
+</tr>
+<tr>
+<td><code>a &lt;&lt;= b</code> <code>a &gt;&gt;= b</code></td>
+<td>비트를 밀고 대입</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sec-label">SECTION 11</div><h2 id="_10">콤마 연산자</h2>
+<p>식 여러 개를 콤마로 이어서 한 문장에 쓰는 것. 왼쪽부터 차례로 계산하고, 전체 결과는 맨 오른쪽 식의 값이다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a, b;
+a = (b = 3, b + 4);   // b = 3 먼저, 그다음 b + 4 = 7
+printf("%d %d\n", a, b);   // 7 3</code></pre></div>
+<p>for문 안에서 변수 두 개를 한꺼번에 바꿀 때 가장 많이 본다.</p>
+<div class="sec-label">SECTION 12</div><h2 id="_11">조건 연산자 (삼항)</h2>
+<p>간단한 if ~ else를 한 줄로 줄인 것.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 3, b = 8;
+int max = (a &gt; b) ? a : b;
+printf("%d\n", max);   // 8</code></pre></div>
+<p><code>조건 ? 참일 때 값 : 거짓일 때 값</code> 형태다. 값을 골라서 변수에 넣을 때 편하다. 너무 길게 중첩해서 쓰면 읽기 힘드니 간단할 때만 쓰자.</p>
+<div class="sec-label">SECTION 13</div><h2 id="_12">연산 방향과 우선순위 정리</h2>
+<p>같은 우선순위의 연산자가 여러 개 나오면 방향대로 계산한다. 대부분은 왼쪽에서 오른쪽이다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int r = 10 - 3 - 2;   // (10 - 3) - 2 = 5, 왼쪽부터</code></pre></div>
+<p>반대로 대입 연산자(<code>=</code>, <code>+=</code> …)와 증감, 조건 연산자는 오른쪽에서 왼쪽으로 계산한다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a, b, c;
+a = b = c = 5;   // c = 5 먼저, 그 값이 b로, 다시 a로</code></pre></div>
+<p>우선순위가 높은 순서를 대충 정리하면: 괄호 → 증감, 단항 연산자 → 곱셈·나눗셈·나머지 → 덧셈·뺄셈 → 시프트 → 관계 → 논리 → 조건 → 대입 → 콤마. 다 외우기보다 헷갈릴 땐 괄호를 쓰는 게 낫다.</p>
 <div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p>정수끼리 나누면 정수가 나오고, 비교 결과는 1 또는 0이며, 0이 아닌 값은 전부 참이다.</p></div></div>
     </article>
     <div class="pager"><a class="prev" href="../ch03/">← 03 변수와 데이터 입력</a><a class="next" href="../ch05/">05 선택문 →</a></div>
