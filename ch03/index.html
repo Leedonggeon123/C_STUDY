@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/style.css?v=2">
 </head>
 <body>
 <header class="topbar"><div class="wrap">
@@ -148,7 +148,7 @@ int main(void)
 <tr>
 <td><code>double</code></td>
 <td><code>%lf</code></td>
-<td><code>%f</code></td>
+<td><code>%lf</code></td>
 </tr>
 <tr>
 <td><code>char</code></td>
@@ -157,7 +157,7 @@ int main(void)
 </tr>
 </tbody>
 </table></div>
-<p><code>double</code>은 scanf에서만 <code>%lf</code>(소문자 L)를 쓰고 printf에서는 <code>%f</code>다. 이 차이는 한 번 외워두면 된다.</p>
+<p><code>double</code>은 <code>%lf</code>(소문자 L)로 받고 <code>%lf</code>로 출력한다. printf에서는 <code>%f</code>로 써도 똑같이 나오지만, <strong>scanf에서는 반드시 <code>%lf</code></strong>를 써야 한다. <code>%f</code>로 받으면 값이 엉망이 된다. 이 노트는 책처럼 printf도 <code>%lf</code>로 통일했다.</p>
 <p>여러 개를 한 번에 받을 수도 있다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a, b;
 scanf("%d %d", &amp;a, &amp;b);
@@ -193,6 +193,6 @@ printf("안녕, %s\n", name);</code></pre></div>
   </main>
 </div>
 <footer class="foot"><div class="wrap"><span>혼자 공부하는 C언어 · 개인 학습 노트</span><span>예제 코드는 직접 컴파일해서 확인했습니다</span></div></footer>
-<script src="../assets/main.js"></script>
+<script src="../assets/main.js?v=2"></script>
 </body>
 </html>
