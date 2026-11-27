@@ -162,3 +162,6 @@ td code { white-space: nowrap; }
   .summary p { font-size: 19px; }
   .foot .wrap { flex-direction: column; }
 }
+
+/* 코딩 폰트 합자 끄기: <= 가 ≤ 처럼 한 글자로 보이지 않게 */
+body, code, pre, kbd { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
