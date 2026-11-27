@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 상수와 데이터 출력 · 혼공C NOTES</title>
+<meta name="description" content="혼자 공부하는 C언어를 공부하며 정리한 노트">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="brand" href="../">혼공C NOTES</a>
+  <nav class="topnav"><a href="../">INDEX</a><a href="https://github.com/Leedonggeon123/C_STUDY" target="_blank" rel="noopener">GITHUB ↗</a></nav>
+</div></header>
+<div class="wrap chapter">
+  <aside class="side">
+    <div class="bignum">02</div>
+    <h1>상수와 데이터 출력</h1>
+    <p class="desc">상수의 네 가지 종류, printf 서식 지정자, 이스케이프 시퀀스, 진법</p>
+    <div class="toc-label">IN THIS CHAPTER</div>
+    <nav class="toc"><a href="#_1">상수: 값 자체</a><a href="#printf">printf로 값 출력하기</a><a href="#_2">이스케이프 시퀀스</a><a href="#_3">출력 모양 다듬기</a><a href="#_4">문자는 사실 숫자다</a><a href="#_5">진법 출력</a></nav>
+  </aside>
+  <main class="content">
+    <article class="prose">
+<div class="sec-label">SECTION 01</div><h2 id="_1">상수: 값 자체</h2>
+<p>코드에 직접 적어놓은 값을 상수라고 한다. 종류는 크게 네 가지.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>종류</th>
+<th>예</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정수</td>
+<td><code>10</code>, <code>-3</code></td>
+<td>소수점 없음</td>
+</tr>
+<tr>
+<td>실수</td>
+<td><code>3.14</code>, <code>-0.5</code></td>
+<td>소수점 있음</td>
+</tr>
+<tr>
+<td>문자</td>
+<td><code>'A'</code></td>
+<td>작은따옴표, 딱 한 글자</td>
+</tr>
+<tr>
+<td>문자열</td>
+<td><code>"Hello"</code></td>
+<td>큰따옴표, 여러 글자</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>'A'</code>와 <code>"A"</code>는 완전히 다르다. 작은따옴표는 문자 하나, 큰따옴표는 문자열이다. 이거 헷갈려서 에러 나는 경우가 진짜 많다.</p>
+<div class="sec-label">SECTION 02</div><h2 id="printf">printf로 값 출력하기</h2>
+<p>문자열만 출력할 때는 그냥 쓰면 되지만, 값을 끼워 넣으려면 서식 지정자를 쓴다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    printf("정수: %d\n", 10);
+    printf("실수: %f\n", 3.14);
+    printf("문자: %c\n", 'A');
+    printf("문자열: %s\n", "Hello");
+    return 0;
+}</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>지정자</th>
+<th>출력하는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%d</code></td>
+<td>정수</td>
+</tr>
+<tr>
+<td><code>%f</code></td>
+<td>실수</td>
+</tr>
+<tr>
+<td><code>%c</code></td>
+<td>문자</td>
+</tr>
+<tr>
+<td><code>%s</code></td>
+<td>문자열</td>
+</tr>
+</tbody>
+</table></div>
+<p>따옴표 안의 <code>%d</code> 자리에 뒤에 적은 값이 순서대로 들어간다고 생각하면 된다. 지정자 개수와 값 개수는 맞춰야 한다. 그리고 종류도 맞아야 해서, 정수를 <code>%f</code>로 찍으면 엉뚱한 값이 나온다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%d + %d = %d\n", 3, 4, 7);   // 3 + 4 = 7</code></pre></div>
+<div class="sec-label">SECTION 03</div><h2 id="_2">이스케이프 시퀀스</h2>
+<p>화면에 그대로 못 찍는 문자를 <code>\</code>와 함께 쓰는 것.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>표기</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\n</code></td>
+<td>줄 바꿈</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>탭</td>
+</tr>
+<tr>
+<td><code>\\</code></td>
+<td>역슬래시 <code>\</code> 자체</td>
+</tr>
+<tr>
+<td><code>\"</code></td>
+<td>큰따옴표 자체</td>
+</tr>
+<tr>
+<td><code>\'</code></td>
+<td>작은따옴표 자체</td>
+</tr>
+<tr>
+<td><code>%%</code></td>
+<td>퍼센트 <code>%</code> 자체</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>%</code>는 이스케이프가 아니라 printf 규칙이라 <code>\%</code>가 아니고 <code>%%</code>로 쓴다. 이게 은근히 헷갈린다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("이름\t점수\n");
+printf("철수\t90\n");
+printf("정답률 80%%\n");
+printf("그는 \"안녕\"이라고 했다\n");</code></pre></div>
+<div class="sec-label">SECTION 04</div><h2 id="_3">출력 모양 다듬기</h2>
+<p>실수는 그냥 <code>%f</code>를 쓰면 소수점 아래 6자리까지 나온다. 자릿수는 직접 정할 수 있다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%f\n", 3.14);     // 3.140000
+printf("%.2f\n", 3.14159); // 3.14 (반올림)
+printf("[%5d]\n", 42);     // [   42]  폭 5칸, 오른쪽 정렬
+printf("[%-5d]\n", 42);    // [42   ]  왼쪽 정렬
+printf("[%05d]\n", 42);    // [00042]  빈칸을 0으로</code></pre></div>
+<p>표 형태로 정렬해서 출력할 때 폭 지정이 꽤 쓸모 있다.</p>
+<div class="sec-label">SECTION 05</div><h2 id="_4">문자는 사실 숫자다</h2>
+<p>컴퓨터 안에서 문자는 숫자(아스키 코드)로 저장된다. 그래서 같은 값을 <code>%c</code>로 찍으면 문자, <code>%d</code>로 찍으면 숫자가 나온다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%c\n", 'A');   // A
+printf("%d\n", 'A');   // 65
+printf("%c\n", 66);    // B</code></pre></div>
+<p>대문자 <code>A</code>는 65, 소문자 <code>a</code>는 97이다. 이 차이가 32라는 건 나중에 대소문자 변환할 때 쓸 수 있다.</p>
+<div class="sec-label">SECTION 06</div><h2 id="_5">진법 출력</h2>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">printf("%d\n", 17);    // 10진수 17
+printf("%o\n", 17);    // 8진수  21
+printf("%x\n", 255);   // 16진수 ff
+printf("%d\n", 0x1F);  // 16진수로 쓴 상수 -&gt; 31
+printf("%d\n", 011);   // 8진수로 쓴 상수 -&gt; 9</code></pre></div>
+<p>코드에서 숫자 앞에 <code>0</code>을 붙이면 8진수, <code>0x</code>를 붙이면 16진수로 읽는다. <code>011</code>을 11로 착각하기 쉬우니 앞에 0 붙이는 습관은 조심.</p>
+<div class="summary"><div class="q">&ldquo;</div><div><div class="label">ONE-LINE SUMMARY</div><p><code>printf</code>는 따옴표 안의 서식 지정자(<code>%d</code>, <code>%f</code>, <code>%c</code>, <code>%s</code>) 자리에 뒤의 값을 순서대로 끼워 넣는 함수이고, 개수와 종류를 맞춰야 한다.</p></div></div>
+    </article>
+    <div class="pager"><a class="prev" href="../ch01/">← 01 프로그램 만들기</a><a class="next" href="../ch03/">03 변수와 데이터 입력 →</a></div>
+  </main>
+</div>
+<footer class="foot"><div class="wrap"><span>혼자 공부하는 C언어 · 개인 학습 노트</span><span>예제 코드는 직접 컴파일해서 확인했습니다</span></div></footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>
