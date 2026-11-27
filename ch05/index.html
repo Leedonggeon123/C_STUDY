@@ -19,9 +19,9 @@
   <aside class="side">
     <div class="bignum">05</div>
     <h1>선택문</h1>
-    <p class="desc">if, else if, switch로 조건 나누기와 자주 하는 실수</p>
+    <p class="desc">if, else if, 중첩 if와 매달린 else, switch와 break</p>
     <div class="toc-label">IN THIS CHAPTER</div>
-    <nav class="toc"><a href="#if">if</a><a href="#if-else">if ~ else</a><a href="#else-if">else if</a><a href="#if_1">중첩 if</a><a href="#if_2">if에서 자주 하는 실수</a><a href="#switch">switch</a><a href="#_1">조건 연산자 (삼항)</a><a href="#_2">예제: 윤년 판별</a></nav>
+    <nav class="toc"><a href="#if">if</a><a href="#if-else">if ~ else</a><a href="#else-if">else if</a><a href="#if_1">중첩 if</a><a href="#if_2">if에서 자주 하는 실수</a><a href="#switch">switch</a><a href="#_1">예제: 윤년 판별</a></nav>
   </aside>
   <main class="content">
     <article class="prose">
@@ -74,6 +74,24 @@ if (age &gt;= 19)
         printf("표가 필요합니다\n");
 }</code></pre></div>
 <p>이 정도는 <code>&amp;&amp;</code>로 한 줄에 쓸 수도 있다(<code>age &gt;= 19 &amp;&amp; hasTicket</code>). 중첩이 깊어지면 읽기 힘들어지니까, 논리 연산자로 합칠 수 있으면 합치는 쪽이 깔끔하다.</p>
+<h3 id="else-if-else">else는 가장 가까운 if에 붙는다 (매달린 else)</h3>
+<p>중첩 if에서 else가 어느 if의 짝인지는 들여쓰기가 아니라 <strong>가장 가까운 if</strong>로 결정된다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 1, b = 5;
+
+if (a &gt; 3)
+    if (b &gt; 3)
+        printf("둘 다 큼\n");
+else
+    printf("a가 작음\n");   // 들여쓰기와 달리 안쪽 if(b &gt; 3)의 else</code></pre></div>
+<p>들여쓰기만 보면 바깥 if의 else 같지만, 컴파일러는 <code>if (b &gt; 3)</code>의 else로 읽는다. 그래서 a=1일 때는 바깥 조건이 거짓이라 else까지 가지도 못하고 아무것도 출력되지 않는다. "a가 작음"이 찍힐 거라 기대했다면 틀린 것. 원하는 짝으로 붙이려면 중괄호로 묶어준다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">if (a &gt; 3)
+{
+    if (b &gt; 3)
+        printf("둘 다 큼\n");
+}
+else
+    printf("a가 작음\n");</code></pre></div>
+<p>사실 <code>else if</code>도 <code>else</code> 안에 if가 들어간 중첩 구조다. 한 줄로 이어 쓰는 것뿐이다.</p>
 <div class="sec-label">SECTION 05</div><h2 id="if_2">if에서 자주 하는 실수</h2>
 <p>중괄호를 생략하면 바로 다음 한 문장만 if에 속한다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int n = 3;
@@ -123,14 +141,22 @@ switch (month)
         break;
 }</code></pre></div>
 <p>break가 없는 걸 일부러 써서 여러 case를 하나로 묶은 예다. 4월이면 <code>case 4</code>부터 시작해서 <code>break</code>를 만날 때까지 내려가서 "봄"이 나온다.</p>
+<p><code>default</code>는 어떤 case에도 안 맞을 때 실행되는 곳이다. 보통 맨 아래에 두지만 위치는 어디든 상관없다. 다만 맨 아래가 아니라면 <code>break</code>를 꼭 써야 아래 case로 안 흘러간다.</p>
 <p>switch는 정수나 문자 값에만 쓸 수 있다. 실수나 문자열은 안 되고, <code>score &gt;= 90</code> 같은 범위 비교도 안 된다. 범위는 if ~ else if로, 딱 떨어지는 값은 switch로 나누면 된다.</p>
-<div class="sec-label">SECTION 07</div><h2 id="_1">조건 연산자 (삼항)</h2>
-<p>간단한 if ~ else를 한 줄로 줄인 것.</p>
-<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int a = 3, b = 8;
-int max = (a &gt; b) ? a : b;
-printf("%d\n", max);   // 8</code></pre></div>
-<p><code>조건 ? 참일 때 값 : 거짓일 때 값</code> 형태다. 값을 골라서 변수에 넣을 때 편하다. 너무 길게 중첩해서 쓰면 읽기 힘드니 간단할 때만 쓰자.</p>
-<div class="sec-label">SECTION 08</div><h2 id="_2">예제: 윤년 판별</h2>
+<h3 id="switch-if">switch를 if로 바꿔보기</h3>
+<p><code>switch</code>는 <code>if ~ else if</code>로 바꿀 수 있다. <code>break</code>는 "나머지 case는 건너뛴다"는 뜻이라 <code>else</code>가 하는 일과 같다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int menu = 2;
+
+if (menu == 1)
+    printf("커피\n");
+else if (menu == 2)
+    printf("녹차\n");
+else if (menu == 3)
+    printf("주스\n");
+else
+    printf("없는 메뉴\n");</code></pre></div>
+<p>반대로 범위 조건이 있는 건 switch로 바꿀 수 없다.</p>
+<div class="sec-label">SECTION 07</div><h2 id="_1">예제: 윤년 판별</h2>
 <p>4로 나누어떨어지고 100으로 나누어떨어지지 않거나, 400으로 나누어떨어지면 윤년.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
 
