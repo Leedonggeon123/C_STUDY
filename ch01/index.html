@@ -26,7 +26,7 @@
   <main class="content">
     <article class="prose">
 <div class="sec-label">SECTION 01</div><h2 id="c">프로그램과 C 언어</h2>
-<p>프로그램은 결국 "할 일의 순서"다. 라면을 끓일 때도 물 붓기 → 끓이기 → 면 넣기 → 스프 넣기 순서가 있는 것처럼, 컴퓨터에게도 순서대로 일을 시켜야 한다. 그런데 "스프 적당히 넣기" 같은 말은 사람은 알아듣지만 컴퓨터는 못 알아듣는다. 그래서 오해 없이 쓰는 규칙을 정해놨고, 그게 프로그래밍 언어다. C는 그중 하나.</p>
+<p><strong>프로그램</strong>(program · 미리 정해 둔 진행 순서나 계획)은 결국 "할 일의 순서"다. 라면을 끓일 때도 물 붓기 → 끓이기 → 면 넣기 → 스프 넣기 순서가 있는 것처럼, 컴퓨터에게도 순서대로 일을 시켜야 한다. 그런데 "스프 적당히 넣기" 같은 말은 사람은 알아듣지만 컴퓨터는 못 알아듣는다. 그래서 오해 없이 쓰는 규칙을 정해놨고, 그게 <strong>프로그래밍 언어</strong>(컴퓨터에게 일을 시키기 위해 정해 둔 말과 규칙)다. C는 그중 하나.</p>
 <h3 id="c_1">C 언어는 왜 만들어졌나</h3>
 <ul>
 <li>1972년에 데니스 리치가 만들었다. 켄 톰슨의 B 언어를 발전시킨 것.</li>
@@ -56,17 +56,17 @@
 </tr>
 </tbody>
 </table></div>
-<p>표준에 없는 문법을 쓰면 특정 컴파일러에서만 돌아가서 이식성이 깨진다는 점도 알아두자.</p>
+<p>표준에 없는 문법을 쓰면 특정 컴파일러에서만 돌아가서 <strong>이식성</strong>(移植性 · 옮겨 심어도 잘 자라는 성질 → 다른 컴퓨터로 옮겨도 그대로 돌아가는 성질)이 깨진다는 점도 알아두자.</p>
 <div class="sec-label">SECTION 02</div><h2 id="_1">컴파일이 뭔가</h2>
-<p>사람이 쓴 코드(소스 파일)는 컴퓨터가 바로 못 읽는다. 컴퓨터는 0과 1로 된 기계어만 이해해서, 중간에 번역하는 과정이 필요하다. 그게 컴파일이고, 번역하는 프로그램이 컴파일러다.</p>
+<p>사람이 쓴 코드인 <strong>소스 파일</strong>(source · 근원, 원천 → 프로그램의 원본)은 컴퓨터가 바로 못 읽는다. 컴퓨터는 0과 1로 된 <strong>기계어</strong>(機械語 · 기계가 바로 알아듣는 말)만 이해해서, 중간에 번역하는 과정이 필요하다. 그게 <strong>컴파일</strong>(compile · 여러 자료를 모아 엮다, 편집하다)이고, 번역하는 프로그램이 <strong>컴파일러</strong>(compiler · 엮는 도구)다.</p>
 <div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>소스 파일(.c) → 컴파일 → 실행 파일(.exe) → 실행</code></pre></div>
 <p>코드를 고치면 다시 컴파일해야 바뀐 게 반영된다. 처음엔 이걸 깜빡하고 "왜 안 바뀌지?" 하게 된다.</p>
 <h3 id="3">안쪽을 더 들여다보면 3단계</h3>
 <p>비주얼 스튜디오에서는 버튼 한 번(Ctrl+Shift+B)이지만 속에서는 세 단계가 돌아간다.</p>
 <ol>
-<li><strong>전처리</strong>: <code>#include</code> 같은 지시자대로 소스를 가공한다. 필요한 파일을 불러와 붙이고, 주석도 이 단계에서 지워진다.</li>
-<li><strong>컴파일</strong>: 전처리된 소스를 기계어로 바꿔서 개체 파일(object file)을 만든다. CPU가 읽는 명령어로는 되어 있지만 이것만으로는 실행이 안 된다. 프로그램은 운영체제가 실행해주는 것이라, 운영체제가 알아보는 형태로 한 번 더 손봐야 하기 때문.</li>
-<li><strong>링크</strong>: 개체 파일에 startup code를 붙여서 실행 파일을 완성한다. startup code는 실행 전 준비 작업을 하고 <code>main</code> 함수를 불러주는 코드다. 그래서 C 프로그램에는 항상 <code>main</code>이 있어야 한다.</li>
+<li><strong>전처리</strong>(前處理 · 본 처리 전에 미리 하는 처리): <code>#include</code> 같은 지시자대로 소스를 가공한다. 필요한 파일을 불러와 붙이고, 주석도 이 단계에서 지워진다.</li>
+<li><strong>컴파일</strong>: 전처리된 소스를 기계어로 바꿔서 <strong>개체 파일</strong>(object file · 個體, 따로따로인 하나의 덩어리)을 만든다. CPU가 읽는 명령어로는 되어 있지만 이것만으로는 실행이 안 된다. 프로그램은 운영체제가 실행해주는 것이라, 운영체제가 알아보는 형태로 한 번 더 손봐야 하기 때문.</li>
+<li><strong>링크</strong>(link · 잇다, 연결하다): 개체 파일에 startup code를 붙여서 실행 파일을 완성한다. startup code는 실행 전 준비 작업을 하고 <code>main</code> 함수를 불러주는 코드다. 그래서 C 프로그램에는 항상 <code>main</code>이 있어야 한다.</li>
 </ol>
 <div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>소스 파일 → (전처리) → 전처리된 소스 → (컴파일) → 개체 파일 → (링크, startup code 추가) → 실행 파일</code></pre></div>
 <div class="sec-label">SECTION 03</div><h2 id="_2">비주얼 스튜디오로 첫 프로그램 만들기</h2>
@@ -124,7 +124,7 @@ int main(void)
 }</code></pre></div>
 <p><code>system</code>은 운영체제 명령을 실행하는 함수고, 명령은 운영체제마다 다르다. Windows 콘솔 창을 붙잡아두려고 쓰는 정도로만 알아두면 된다. Ctrl+F5로 실행하면 이미 창이 유지돼서 필요 없다.</p>
 <h3 id="_3">컴파일 오류가 났을 때</h3>
-<p>일부러 문장 끝의 <code>;</code>를 지우고 컴파일해보면 오류 메시지가 뜬다. 메시지를 더블클릭하면 해당 줄로 이동하는데, 이동한 줄이 실제로 틀린 줄이 아닐 때가 있다. <code>;</code>가 빠지면 컴파일러는 다음 줄까지 한 문장으로 이어서 읽기 때문에 "다음 줄이 이상하다"고 말한다. 그래서 표시된 줄이 이상해 보이지 않으면 바로 위 줄 끝을 확인하자. 오류를 고치는 작업을 디버깅이라고 한다.</p>
+<p>일부러 문장 끝의 <code>;</code>를 지우고 컴파일해보면 오류 메시지가 뜬다. 메시지를 더블클릭하면 해당 줄로 이동하는데, 이동한 줄이 실제로 틀린 줄이 아닐 때가 있다. <code>;</code>가 빠지면 컴파일러는 다음 줄까지 한 문장으로 이어서 읽기 때문에 "다음 줄이 이상하다"고 말한다. 그래서 표시된 줄이 이상해 보이지 않으면 바로 위 줄 끝을 확인하자. 오류를 고치는 작업을 <strong>디버깅</strong>(debugging · bug는 벌레라는 뜻 → 프로그램 속 벌레, 즉 오류를 잡아내는 일)이라고 한다.</p>
 <h3 id="_4">프로젝트 템플릿 만들어두기 (선택)</h3>
 <p>VS는 보안 검사를 엄격하게 해서 <code>scanf</code> 같은 함수에 경고를 에러처럼 띄운다. 매번 막히지 않으려면 처음에 한 번만 설정해서 템플릿으로 저장해두면 편하다.</p>
 <ol>
@@ -143,7 +143,7 @@ int main(void)
 }</code></pre></div>
 <ul>
 <li><code>#include &lt;stdio.h&gt;</code>: 입출력 함수(<code>printf</code>, <code>scanf</code> 등)를 쓰려고 불러오는 것. 전처리 단계에서 처리된다.</li>
-<li><code>int main(void)</code>: 프로그램이 시작되는 곳. C 프로그램은 항상 <code>main</code>부터 실행된다.</li>
+<li><code>int main(void)</code>: 프로그램이 시작되는 곳. main은 "주된, 가장 중요한"이라는 뜻. C 프로그램은 항상 <code>main</code>부터 실행된다.</li>
 <li><code>{ }</code>: <code>main</code>이 실행할 내용을 묶는 중괄호.</li>
 <li><code>printf(...)</code>: 화면에 출력.</li>
 <li><code>;</code>: 명령 하나가 끝났다는 표시.</li>
