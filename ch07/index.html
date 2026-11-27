@@ -265,13 +265,17 @@ double centi_to_meter(double cm)      // 함수 정의
 }</code></pre></div>
 <div class="codewrap"><div class="bar"><span>OUTPUT</span><button class="copy" type="button">복사</button></div><pre class="hl"><code>1.87m</code></pre></div>
 <p><strong>정답과 내 풀이 비교</strong></p>
-<p>나는 <code>0.01</code>을 곱하는 방식으로 풀었는데, 1cm = 0.01m라서 <code>cm * 0.01</code>과 <code>cm / 100.0</code>은 같은 계산이다. 계산식 자체는 맞다. 다만 두 가지는 조심하자.</p>
-<ol>
-<li><strong>변환은 함수 안에서 해야 한다.</strong> 문제가 "cm를 m로 환산해서 반환하는 함수"를 만들라는 거라, <code>main</code>에서 <code>centi_to_meter(187) * 0.01</code>처럼 호출한 다음에 곱하면 함수가 하는 일이 없어진다. 곱하기는 함수 안에서만 하고, <code>main</code>은 <code>res = centi_to_meter(187);</code>로 결과만 받는다.</li>
-<li><strong>함수 안에서는 매개변수 이름을 써야 한다.</strong> 함수 안에서 <code>res * 0.01</code>처럼 <code>main</code>의 변수 <code>res</code>를 쓰면 에러가 난다(<code>'res' undeclared</code>). <code>res</code>는 <code>main</code> 블록 안에서만 쓸 수 있기 때문이다. 함수 안에서는 넘겨받은 값이 들어 있는 매개변수 <code>cm</code>을 써서 <code>cm * 0.01</code>로 계산한다.</li>
-</ol>
+<p>내 풀이는 함수 안에서 <code>0.01</code>을 곱했다.</p>
+<div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">double centi_to_meter(double cm)
+{
+    double height;
+    height = cm * 0.01;    // 1cm = 0.01m
+    return height;
+}</code></pre></div>
+<p>정답은 <code>cm / 100.0</code>인데, 100으로 나누는 거나 0.01을 곱하는 거나 같은 계산이라 결과는 똑같이 <code>1.87m</code>가 나온다. 변수 이름(<code>meter</code>, <code>height</code>)도 아무거나 써도 된다.</p>
 <p><strong>그 밖에 알아둘 점</strong></p>
 <ul>
+<li>함수 안에서는 넘겨받은 값이 들어 있는 매개변수 <code>cm</code>을 써야 한다. <code>main</code>의 변수 <code>res</code>는 <code>main</code> 블록 안에서만 쓸 수 있어서, 함수 안에서 <code>res</code>를 쓰면 에러(<code>'res' undeclared</code>)가 난다.</li>
 <li><code>centi_to_meter(187)</code>처럼 정수 187을 넣어도, 선언에서 매개변수가 <code>double</code>이라고 알려줬기 때문에 자동으로 187.0으로 바뀌어 들어간다. 선언이 이런 역할도 한다.</li>
 <li><code>/ 100.0</code>처럼 소수점을 붙이는 습관이 좋다. 지금은 <code>cm</code>이 <code>double</code>이라 <code>/ 100</code>으로 해도 되지만, <code>cm</code>이 <code>int</code>였다면 <code>187 / 100</code>은 정수 나눗셈이라 1이 나온다.</li>
 <li><code>%.2lf</code>는 소수점 아래 둘째 자리까지 출력한다. 뒤에 붙은 <code>m</code>은 그냥 글자라 <code>1.87m</code>로 찍힌다.</li>
