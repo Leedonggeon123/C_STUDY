@@ -25,7 +25,7 @@
   </aside>
   <main class="content">
     <article class="prose">
-<p>조건에 따라 실행할 코드를 고르는 문법. 앞에서 배운 관계, 논리 연산자가 여기서 본격적으로 쓰인다.</p>
+<p><strong>선택문</strong>(選擇文 · 골라서 실행하는 문장)은 <strong>조건</strong>(條件 · 어떤 일이 이루어지기 위해 갖춰야 할 상태)에 따라 실행할 코드를 고르는 문법. 앞에서 배운 관계, 논리 연산자가 여기서 본격적으로 쓰인다.</p>
 <div class="sec-label">SECTION 01</div><h2 id="if">if</h2>
 <p>조건이 참(0이 아닌 값)일 때만 중괄호 안을 실행한다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">#include &lt;stdio.h&gt;
@@ -62,7 +62,7 @@ else
     printf("F\n");</code></pre></div>
 <p>위에서부터 검사하기 때문에 조건 순서가 중요하다. 만약 <code>score &gt;= 60</code>을 맨 위에 두면 85점도 거기서 걸려버린다. 범위가 큰 조건이 앞에 오면 뒤의 조건은 실행될 일이 없어진다.</p>
 <div class="sec-label">SECTION 04</div><h2 id="if_1">중첩 if</h2>
-<p>if 안에 또 if를 넣을 수 있다.</p>
+<p><strong>중첩</strong>(重疊 · 거듭 겹침). if 안에 또 if를 넣을 수 있다.</p>
 <div class="codewrap"><div class="bar"><span>C</span><button class="copy" type="button">복사</button></div><pre class="hl"><code class="language-c">int age = 20;
 int hasTicket = 1;
 
